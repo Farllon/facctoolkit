@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\domain\FaccToolkit.Domain.Rich\FaccToolkit.Domain.Rich.csproj" />
+    <ProjectReference Include="..\FaccToolkit.Persistence.MongoDb.Abstractions\FaccToolkit.Persistence.MongoDb.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

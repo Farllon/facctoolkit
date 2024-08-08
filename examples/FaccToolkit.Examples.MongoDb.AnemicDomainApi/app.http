@@ -1,0 +1,6 @@
+@FaccToolkit.Examples.MongoDb.AnemicDomainApi_HostAddress = http://localhost:5242
+
+GET {{FaccToolkit.Examples.MongoDb.AnemicDomainApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

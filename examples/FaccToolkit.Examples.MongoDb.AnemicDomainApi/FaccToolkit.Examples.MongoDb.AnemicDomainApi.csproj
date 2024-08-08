@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\libs\caching\FaccToolkit.Caching.Redis\FaccToolkit.Caching.Redis.csproj" />
+    <ProjectReference Include="..\..\libs\caching\FaccToolkit.Caching.Serializers.System.Text.Json\FaccToolkit.Caching.Serializers.System.Text.Json.csproj" />
+    <ProjectReference Include="..\..\libs\persistence\FaccToolkit.Persistence.Extensions.Caching.AnemicDomain\FaccToolkit.Persistence.Extensions.Caching.AnemicDomain.csproj" />
+    <ProjectReference Include="..\..\libs\persistence\FaccToolkit.Persistence.MongoDb.AnemicDomain\FaccToolkit.Persistence.MongoDb.AnemicDomain.csproj" />
+    <ProjectReference Include="..\FaccToolkit.Examples.AnemicDomain\FaccToolkit.Examples.AnemicDomain.csproj" />
+  </ItemGroup>
+
+</Project>

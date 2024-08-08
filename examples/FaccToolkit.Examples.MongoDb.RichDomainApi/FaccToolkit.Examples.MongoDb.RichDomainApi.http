@@ -1,0 +1,67 @@
+@host = http://localhost:5091
+@authorId = 7639189a-87bb-4cae-abbc-a4b62214a19d
+@postId = 57ff73b1-dd12-428b-90ac-51ae4125e20b
+
+GET {{host}}/authors/
+
+###
+
+POST {{host}}/authors/
+Content-Type: application/json
+
+{
+  "name": "Farllon"
+}
+
+###
+
+GET {{host}}/authors/{{authorId}}
+
+###
+
+PUT {{host}}/authors/{{authorId}}
+Content-Type: application/json
+
+{
+  "name": "Farllon 2"
+}
+
+###
+
+DELETE {{host}}/authors/{{authorId}}
+
+###
+
+GET {{host}}/{{authorId}}/posts/
+
+###
+
+POST {{host}}/{{authorId}}/posts/
+Content-Type: application/json
+
+{
+  "title": "My first post at this",
+  "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non elit lobortis, sodales justo id, condimentum lacus. Quisque eleifend libero at nulla rutrum efficitur. In fermentum arcu vitae nibh consectetur, at vulputate ligula dignissim. Pellentesque in tincidunt dolor. Aliquam urna diam, tristique nec metus at, placerat ornare libero. Donec mattis lacus in consectetur volutpat. Sed tristique massa elit, ac lobortis eros hendrerit at. Vestibulum nibh nisi, porttitor ac aliquet sed, semper vel mauris. Donec interdum ante ac nibh fringilla, nec efficitur tellus laoreet. Phasellus efficitur ante libero. Maecenas et enim odio. Morbi id odio ac nisl viverra mollis. Aliquam ac consectetur velit.",
+  "authorId": "{{authorId}}"
+}
+
+###
+
+GET {{host}}/{{authorId}}/posts/{{postId}}
+
+###
+
+PUT {{host}}/{{authorId}}/posts/{{postId}}
+Content-Type: application/json
+
+{
+  "title": "My first post at this (changed)",
+  "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur non elit lobortis, sodales justo id, condimentum lacus. Quisque eleifend libero at nulla rutrum efficitur. In fermentum arcu vitae nibh consectetur, at vulputate ligula dignissim. Pellentesque in tincidunt dolor. Aliquam urna diam, tristique nec metus at, placerat ornare libero. Donec mattis lacus in consectetur volutpat. Sed tristique massa elit, ac lobortis eros hendrerit at. Vestibulum nibh nisi, porttitor ac aliquet sed, semper vel mauris. Donec interdum ante ac nibh fringilla, nec efficitur tellus laoreet. Phasellus efficitur ante libero. Maecenas et enim odio. Morbi id odio ac nisl viverra mollis. Aliquam ac consectetur velit",
+  "authorId": "{authorId}"
+}
+
+###
+
+DELETE {{host}}/{{authorId}}/posts/{{postId}}
+
+###
