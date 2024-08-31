@@ -43,7 +43,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Caching", "Caching", "{A47C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extensions", "Extensions", "{ADC00605-3B05-4DAA-8AAB-E190C39776C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaccToolkit.Caching.Abstractions", "libs\caching\FaccToolkit.Caching.Abstractions\FaccToolkit.Caching.Abstractions.csproj", "{A3E4E51F-7D53-48F3-BECA-C311319AC060}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Caching.Abstractions", "libs\caching\FaccToolkit.Caching.Abstractions\FaccToolkit.Caching.Abstractions.csproj", "{A3E4E51F-7D53-48F3-BECA-C311319AC060}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Persistence.Extensions.Caching.AnemicDomain", "libs\persistence\FaccToolkit.Persistence.Extensions.Caching.AnemicDomain\FaccToolkit.Persistence.Extensions.Caching.AnemicDomain.csproj", "{66987C0C-D7F0-48EC-8B5B-1C74E7361E3A}"
 EndProject
@@ -51,7 +51,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Persistence.Ext
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Caching.Redis", "libs\caching\FaccToolkit.Caching.Redis\FaccToolkit.Caching.Redis.csproj", "{C4DB8B13-5F32-4AF3-AC14-B12982ADBE97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaccToolkit.Caching.Serializers.System.Text.Json", "libs\caching\FaccToolkit.Caching.Serializers.System.Text.Json\FaccToolkit.Caching.Serializers.System.Text.Json.csproj", "{D3D8529A-E8AE-4474-8A16-3DE089D6E16A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Caching.Serializers.System.Text.Json", "libs\caching\FaccToolkit.Caching.Serializers.System.Text.Json\FaccToolkit.Caching.Serializers.System.Text.Json.csproj", "{D3D8529A-E8AE-4474-8A16-3DE089D6E16A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5FBB16E5-E453-4608-8409-8D2A4FC76E40}"
+	ProjectSection(SolutionItems) = preProject
+		tests\Directory.Build.props = tests\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Domain.Rich.Tests", "tests\domain\FaccToolkit.Domain.Rich.Tests\FaccToolkit.Domain.Rich.Tests.csproj", "{46751A46-5C1E-40D0-8FAF-25E5DCD56928}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Domain.Rich.Extensions.MediatR.Tests", "tests\domain\FaccToolkit.Domain.Rich.Extensions.MediatR.Tests\FaccToolkit.Domain.Rich.Extensions.MediatR.Tests.csproj", "{FECF8C2D-7994-4EB8-B5D4-AF2399DBE31B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Persistence.MongoDb.Abstractions.Tests", "tests\persistence\FaccToolkit.Persistence.MongoDb.Abstractions.Tests\FaccToolkit.Persistence.MongoDb.Abstractions.Tests.csproj", "{48922994-7AB6-4CEB-B41B-93865997B416}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -127,6 +138,18 @@ Global
 		{D3D8529A-E8AE-4474-8A16-3DE089D6E16A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3D8529A-E8AE-4474-8A16-3DE089D6E16A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3D8529A-E8AE-4474-8A16-3DE089D6E16A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46751A46-5C1E-40D0-8FAF-25E5DCD56928}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46751A46-5C1E-40D0-8FAF-25E5DCD56928}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46751A46-5C1E-40D0-8FAF-25E5DCD56928}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46751A46-5C1E-40D0-8FAF-25E5DCD56928}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FECF8C2D-7994-4EB8-B5D4-AF2399DBE31B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FECF8C2D-7994-4EB8-B5D4-AF2399DBE31B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FECF8C2D-7994-4EB8-B5D4-AF2399DBE31B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FECF8C2D-7994-4EB8-B5D4-AF2399DBE31B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48922994-7AB6-4CEB-B41B-93865997B416}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48922994-7AB6-4CEB-B41B-93865997B416}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48922994-7AB6-4CEB-B41B-93865997B416}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48922994-7AB6-4CEB-B41B-93865997B416}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -155,6 +178,9 @@ Global
 		{7FAE479B-C8AD-485D-AECC-62FAD33B96DB} = {ADC00605-3B05-4DAA-8AAB-E190C39776C2}
 		{C4DB8B13-5F32-4AF3-AC14-B12982ADBE97} = {A47CAB82-BBD0-4888-9B93-1516928C325F}
 		{D3D8529A-E8AE-4474-8A16-3DE089D6E16A} = {A47CAB82-BBD0-4888-9B93-1516928C325F}
+		{46751A46-5C1E-40D0-8FAF-25E5DCD56928} = {5FBB16E5-E453-4608-8409-8D2A4FC76E40}
+		{FECF8C2D-7994-4EB8-B5D4-AF2399DBE31B} = {5FBB16E5-E453-4608-8409-8D2A4FC76E40}
+		{48922994-7AB6-4CEB-B41B-93865997B416} = {5FBB16E5-E453-4608-8409-8D2A4FC76E40}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED848D68-56CD-4074-83A4-FFE29532A82B}
