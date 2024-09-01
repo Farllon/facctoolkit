@@ -54,9 +54,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Caching.Serializers.System.Text.Json", "libs\caching\FaccToolkit.Caching.Serializers.System.Text.Json\FaccToolkit.Caching.Serializers.System.Text.Json.csproj", "{D3D8529A-E8AE-4474-8A16-3DE089D6E16A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5FBB16E5-E453-4608-8409-8D2A4FC76E40}"
-	ProjectSection(SolutionItems) = preProject
-		tests\Directory.Build.props = tests\Directory.Build.props
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Domain.Rich.Tests", "tests\domain\FaccToolkit.Domain.Rich.Tests\FaccToolkit.Domain.Rich.Tests.csproj", "{46751A46-5C1E-40D0-8FAF-25E5DCD56928}"
 EndProject

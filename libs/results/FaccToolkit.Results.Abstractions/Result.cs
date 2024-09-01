@@ -17,11 +17,11 @@
 
     public class Result<T> : Result
     {
-        private T? _value;
+        private T _value;
 
-        public T? Value => IsSuccess ? _value : throw FailureResultGetValueException.Instance;
+        public T Value => IsSuccess ? _value : throw FailureResultGetValueException.Instance;
 
-        public Result(ResultType type, string? message, T? value) : base(type, message)
+        public Result(ResultType type, string? message, T value) : base(type, message)
         {
             _value = value;
         }

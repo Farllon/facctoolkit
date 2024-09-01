@@ -12,6 +12,6 @@
             => new Result<T>(ResultType.Success, null, data);
 
         public static Result<T> Failure<T>(string message)
-            => new Result<T>(ResultType.Failure, message, default);
+            => new Result<T>(ResultType.Failure, message, default!);
     }
 }
