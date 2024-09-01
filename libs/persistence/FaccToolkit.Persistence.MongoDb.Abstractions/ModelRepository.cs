@@ -43,8 +43,8 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions
                             _logger.LogWarning("The {Model} model with {Id} id was not found in mongo {Collection} collection", typeof(TModel), id, _collection.CollectionNamespace.CollectionName);
                             break;
                         case false:
-                            _logger.LogError(task.Exception, "The {Model} model with {Id} id find operation was failed", typeof(TModel), id);
-                            break;
+                            _logger.LogError(task.Exception, "The {Model} model with {Id} id find operation in mongo {Collection} collection was failed", typeof(TModel), id, _collection.CollectionNamespace.CollectionName);
+                            throw task.Exception;
                     };
 
                     return task.Result;
@@ -61,27 +61,35 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions
                 .InsertOneAsync(_context.CurrentSession, model, cancellationToken: cancellationToken)
                 .ContinueWith(task =>
                 {
-                    if (task.IsCompletedSuccessfully)
-                        _logger.LogInformation("The {Model} model with {Id} id insertion in mongo {Collection} collection was completed", typeof(TModel), id, _collection.CollectionNamespace.CollectionName);
-                    else
+                    if (!task.IsCompletedSuccessfully)
+                    {
                         _logger.LogError(task.Exception, "The {Model} model with {Id} id insertion in mongo {Collection} collection was failed", typeof(TModel), id, _collection.CollectionNamespace.CollectionName);
+
+                        throw task.Exception;
+                    }
+
+                    _logger.LogInformation("The {Model} model with {Id} id insertion in mongo {Collection} collection was completed", typeof(TModel), id, _collection.CollectionNamespace.CollectionName);
 
                     return task;
                 });
         }
 
-        public virtual Task InsertAsync<TId>(Expression<Func<TModel, TId>> idSelctor, IEnumerable<TModel> entities, CancellationToken cancellationToken)
+        public virtual Task InsertAsync<TId>(Expression<Func<TModel, TId>> idSelctor, IEnumerable<TModel> models, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Inserting many {Model} entities in mongo {Collection} collection", typeof(TModel), _collection.CollectionNamespace.CollectionName);
+            _logger.LogInformation("Inserting many {Model} models in mongo {Collection} collection", typeof(TModel), _collection.CollectionNamespace.CollectionName);
 
             return _collection
-                .InsertManyAsync(_context.CurrentSession, entities, cancellationToken: cancellationToken)
+                .InsertManyAsync(_context.CurrentSession, models, cancellationToken: cancellationToken)
                 .ContinueWith(task =>
                 {
-                    if (task.IsCompletedSuccessfully)
-                        _logger.LogInformation("The {Model} entities insertion in mongo {Collection} collection was completed", typeof(TModel), _collection.CollectionNamespace.CollectionName);
-                    else
-                        _logger.LogError(task.Exception, "The {Model} entities insertion in mongo {Collection} collection was failed", typeof(TModel), _collection.CollectionNamespace.CollectionName);
+                    if (!task.IsCompletedSuccessfully)
+                    {
+                        _logger.LogError(task.Exception, "The {Model} models insertion in mongo {Collection} collection was failed", typeof(TModel), _collection.CollectionNamespace.CollectionName);
+
+                        throw task.Exception;
+                    }
+
+                    _logger.LogInformation("The {Model} models insertion in mongo {Collection} collection was completed", typeof(TModel), _collection.CollectionNamespace.CollectionName);
 
                     return task;
                 });
@@ -110,8 +118,8 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions
                             _logger.LogWarning("The {Model} model with {Id} id was not found in mongo {Collection} collection", typeof(TModel), id, _collection.CollectionNamespace.CollectionName);
                             break;
                         case false:
-                            _logger.LogError(task.Exception, "The {Model} model with {Id} id update operation was failed", typeof(TModel), idSelctor);
-                            break;
+                            _logger.LogError(task.Exception, "The {Model} model with {Id} id update operation in mongo {Collection} collection was failed", typeof(TModel), id, _collection.CollectionNamespace.CollectionName);
+                            throw task.Exception;
                     };
 
                     return task.Result;
@@ -138,8 +146,8 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions
                             _logger.LogWarning("The {Model} model with {Id} id was not found in mongo {Collection} collection", typeof(TModel), id, _collection.CollectionNamespace.CollectionName);
                             break;
                         case false:
-                            _logger.LogError(task.Exception, "The {Model} model with {Id} id delete operation was failed", typeof(TModel), id);
-                            break;
+                            _logger.LogError(task.Exception, "The {Model} model with {Id} id delete operation in mongo {Collection} collection was failed", typeof(TModel), id, _collection.CollectionNamespace.CollectionName);
+                            throw task.Exception;
                     };
 
                     return task.Result;

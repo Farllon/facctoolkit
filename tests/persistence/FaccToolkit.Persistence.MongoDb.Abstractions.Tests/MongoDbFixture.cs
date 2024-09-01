@@ -1,5 +1,6 @@
 ﻿
 using DotNet.Testcontainers.Builders;
+using MongoDB.Driver;
 using Testcontainers.MongoDb;
 
 namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
@@ -10,6 +11,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
 
         public string ConnectionString => _container.GetConnectionString();
         public string ContainerId => _container.Id;
+        public IMongoClient? Client { get; private set; }
 
         public MongoDbFixture()
         {
@@ -35,6 +37,8 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
                     }}
                 ]
             }})");
+
+            Client = new MongoClient(ConnectionString);
         }
 
         public virtual Task DisposeAsync()
