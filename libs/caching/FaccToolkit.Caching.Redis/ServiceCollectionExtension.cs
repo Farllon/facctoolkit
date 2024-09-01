@@ -4,9 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FaccToolkit.Caching.Redis
 {
+    [ExcludeFromCodeCoverage]
     public static class ServiceCollectionExtension
     {
         public static IServiceCollection AddRedisCaching(this IServiceCollection services, Action<RedisConfiguration> configureCache)
