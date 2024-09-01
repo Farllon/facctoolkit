@@ -4,9 +4,11 @@ using FaccToolkit.Domain.Anemic;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FaccToolkit.Persistence.Extensions.Caching.AnemicDomain
 {
+    [ExcludeFromCodeCoverage]
     public static class ServiceCollectionExtension
     {
         public static IServiceCollection AddCachedRepositories<TReadRepositoryImplementation, TWriteRepositoryImplementation, TEntity, TId>(this IServiceCollection services)
