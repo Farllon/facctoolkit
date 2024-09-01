@@ -83,7 +83,7 @@ namespace FaccToolkit.Persistence.Extensions.Caching.RichDomain
 
             _logger.LogInformation("Generating key");
             
-            var key = _cacheFacade.GenerateKey<TAggregateRoot>(aggregate.ToString());
+            var key = _cacheFacade.GenerateKey<TAggregateRoot>(aggregate.Id.ToString());
 
             _logger.LogInformation("Expiring {Key} from cache", key);
             
