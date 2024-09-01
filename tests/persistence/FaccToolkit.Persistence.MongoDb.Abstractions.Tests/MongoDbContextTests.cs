@@ -191,13 +191,13 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
         {
             var clientMock = new Mock<IMongoClient>();
             var loggerMock = new Mock<ILogger<TestMongoDbContext>>();
-            var sessionMock = new Mock<IClientSessionHandle>();
+            IClientSessionHandle? sessionMock = null;
 
             clientMock
                 .Setup(client => client.StartSession(
                     It.IsAny<ClientSessionOptions>(),
                     It.IsAny<CancellationToken>()))
-                .Returns(null as IClientSessionHandle);
+                .Returns(sessionMock!);
 
             var context = new TestMongoDbContext(clientMock.Object, loggerMock.Object);
 
@@ -298,13 +298,13 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
         {
             var clientMock = new Mock<IMongoClient>();
             var loggerMock = new Mock<ILogger<TestMongoDbContext>>();
-            var sessionMock = new Mock<IClientSessionHandle>();
+            IClientSessionHandle? sessionMock = null;
 
             clientMock
                 .Setup(client => client.StartSession(
                     It.IsAny<ClientSessionOptions>(),
                     It.IsAny<CancellationToken>()))
-                .Returns(null as IClientSessionHandle);
+                .Returns(sessionMock!);
 
             var context = new TestMongoDbContext(clientMock.Object, loggerMock.Object);
 
@@ -405,13 +405,13 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
         {
             var clientMock = new Mock<IMongoClient>();
             var loggerMock = new Mock<ILogger<TestMongoDbContext>>();
-            var sessionMock = new Mock<IClientSessionHandle>();
+            IClientSessionHandle? sessionMock = null;
 
             clientMock
                 .Setup(client => client.StartSession(
                     It.IsAny<ClientSessionOptions>(),
                     It.IsAny<CancellationToken>()))
-                .Returns(null as IClientSessionHandle);
+                .Returns(sessionMock!);
 
             var context = new TestMongoDbContext(clientMock.Object, loggerMock.Object);
 

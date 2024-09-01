@@ -24,13 +24,13 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions
             _context = context;
             _collection = collection;
         }
-
-        public virtual Task<TModel?> FindByIdAsync<TId>(Expression<Func<TModel, TId>> idSelctor, TId id, CancellationToken cancellationToken)
+        
+        public virtual Task<TModel?> FindByIdAsync<TId>(Expression<Func<TModel, TId>> idSelector, TId id, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Finding {Model} model with {Id} id in mongo {Collection} collection", typeof(TModel), id, _collection.CollectionNamespace.CollectionName);
 
             return _collection
-                .Find(_context.CurrentSession, Builders<TModel>.Filter.Eq(idSelctor, id))
+                .Find(_context.CurrentSession, Builders<TModel>.Filter.Eq(idSelector, id))
                 .FirstOrDefaultAsync(cancellationToken)
                 .ContinueWith(task =>
                 {
@@ -50,10 +50,10 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions
                     return task.Result;
                 });
         }
-
-        public virtual Task InsertAsync<TId>(Expression<Func<TModel, TId>> idSelctor, TModel model, CancellationToken cancellationToken)
+        
+        public virtual Task InsertAsync<TId>(Expression<Func<TModel, TId>> idSelector, TModel model, CancellationToken cancellationToken)
         {
-            var id = idSelctor.Compile().Invoke(model);
+            var id = idSelector.Compile().Invoke(model);
 
             _logger.LogInformation("Inserting one {Model} model with {Id} id in mongo {Collection} collection", typeof(TModel), id, _collection.CollectionNamespace.CollectionName);
 
@@ -73,8 +73,8 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions
                     return task;
                 });
         }
-
-        public virtual Task InsertAsync<TId>(Expression<Func<TModel, TId>> idSelctor, IEnumerable<TModel> models, CancellationToken cancellationToken)
+        
+        public virtual Task InsertAsync<TId>(Expression<Func<TModel, TId>> idSelector, IEnumerable<TModel> models, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Inserting many {Model} models in mongo {Collection} collection", typeof(TModel), _collection.CollectionNamespace.CollectionName);
 
@@ -94,17 +94,17 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions
                     return task;
                 });
         }
-
-        public virtual Task<TModel?> UpdateAsync<TId>(Expression<Func<TModel, TId>> idSelctor, TModel model, CancellationToken cancellationToken)
+        
+        public virtual Task<TModel?> UpdateAsync<TId>(Expression<Func<TModel, TId>> idSelector, TModel model, CancellationToken cancellationToken)
         {
-            var id = idSelctor.Compile().Invoke(model);
+            var id = idSelector.Compile().Invoke(model);
 
             _logger.LogInformation("Updating the {Model} model with {Id} id in mongo {Collection} collection", typeof(TModel), id, _collection.CollectionNamespace.CollectionName);
 
             return _collection
                 .FindOneAndReplaceAsync(
                     _context.CurrentSession,
-                    Builders<TModel>.Filter.Eq(idSelctor, id),
+                    Builders<TModel>.Filter.Eq(idSelector, id),
                     model,
                     cancellationToken: cancellationToken)
                 .ContinueWith(task =>
@@ -125,15 +125,15 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions
                     return task.Result;
                 });
         }
-
-        public virtual Task<TModel?> DeleteAsync<TId>(Expression<Func<TModel, TId>> idSelctor, TId id, CancellationToken cancellationToken)
+        
+        public virtual Task<TModel?> DeleteAsync<TId>(Expression<Func<TModel, TId>> idSelector, TId id, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Deleting the {Model} model with {Id} id in mongo {Collection} collection", typeof(TModel), id, _collection.CollectionNamespace.CollectionName);
 
             return _collection
                 .FindOneAndDeleteAsync(
                     _context.CurrentSession,
-                    Builders<TModel>.Filter.Eq(idSelctor, id),
+                    Builders<TModel>.Filter.Eq(idSelector, id),
                     cancellationToken: cancellationToken)
                 .ContinueWith(task =>
                 {
