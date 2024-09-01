@@ -78,7 +78,7 @@ namespace FaccToolkit.Persistence.MongoDb.RichDomain
                     throw;
                 }
 
-            _logger.LogInformation("Clearing the {Aggregate} aggregate domain events");
+            _logger.LogInformation("Clearing the {Aggregate} aggregate domain events", typeof(TAggregateRoot));
 
             aggregateRoot.ClearEvents();
         }

@@ -3,9 +3,11 @@ using FaccToolkit.Persistence.MongoDb.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FaccToolkit.Persistence.MongoDb.RichDomain
 {
+    [ExcludeFromCodeCoverage]
     public static class ServiceCollectionExtension
     {
         public static IServiceCollection AddRepositories<TAggregateRoot, TId, TContext>(this IServiceCollection services, string? collectionName = null)

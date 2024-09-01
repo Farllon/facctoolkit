@@ -116,7 +116,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions
                 throw;
             }
         }
-
+        
         public virtual void Dispose()
         {
             _logger.LogInformation("Disposing the mongodb session");

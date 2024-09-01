@@ -4,9 +4,11 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FaccToolkit.Persistence.MongoDb.Abstractions
 {
+    [ExcludeFromCodeCoverage]
     public static class ServiceCollectionExtension
     {
         public static IServiceCollection AddMongoDbContext<TContext>(
