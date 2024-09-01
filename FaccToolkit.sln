@@ -72,6 +72,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Persistence.Abs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaccToolkit.Persistence.MongoDb.AnemicDomain.Tests", "tests\persistence\FaccToolkit.Persistence.MongoDb.AnemicDomain.Tests\FaccToolkit.Persistence.MongoDb.AnemicDomain.Tests.csproj", "{C2DF4312-DBA1-437D-82B6-BCC702076953}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Persistence.MongoDb.RichDomain.Tests", "tests\persistence\FaccToolkit.Persistence.MongoDb.RichDomain.Tests\FaccToolkit.Persistence.MongoDb.RichDomain.Tests.csproj", "{0C792BFA-833D-4A89-A26B-0D4599056EA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -170,6 +172,10 @@ Global
 		{C2DF4312-DBA1-437D-82B6-BCC702076953}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2DF4312-DBA1-437D-82B6-BCC702076953}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2DF4312-DBA1-437D-82B6-BCC702076953}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C792BFA-833D-4A89-A26B-0D4599056EA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C792BFA-833D-4A89-A26B-0D4599056EA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C792BFA-833D-4A89-A26B-0D4599056EA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C792BFA-833D-4A89-A26B-0D4599056EA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -205,6 +211,7 @@ Global
 		{9ECE3729-24FE-422C-AF92-A2ACC885EFA8} = {4A30A233-CD53-41E3-A738-340D30EA485A}
 		{15FB4B66-E398-41AA-9EEB-97E244799230} = {5FBB16E5-E453-4608-8409-8D2A4FC76E40}
 		{C2DF4312-DBA1-437D-82B6-BCC702076953} = {5FBB16E5-E453-4608-8409-8D2A4FC76E40}
+		{0C792BFA-833D-4A89-A26B-0D4599056EA3} = {5FBB16E5-E453-4608-8409-8D2A4FC76E40}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED848D68-56CD-4074-83A4-FFE29532A82B}
