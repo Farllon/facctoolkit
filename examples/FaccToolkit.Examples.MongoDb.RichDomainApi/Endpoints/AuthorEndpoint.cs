@@ -10,7 +10,7 @@ namespace FaccToolkit.Examples.MongoDb.RichDomainApi.Endpoints
         {
             var group = builder.MapGroup("authors");
 
-            group.MapGet("/", async (IAuthorReadRepository authorRepository, CancellationToken cancellationToken) =>
+            group.MapGet("/", async (IAuthorRepository authorRepository, CancellationToken cancellationToken) =>
             {
                 var authors = await authorRepository.GetAllAsync(cancellationToken);
 
@@ -19,7 +19,7 @@ namespace FaccToolkit.Examples.MongoDb.RichDomainApi.Endpoints
                     : Results.NoContent();
             });
 
-            group.MapPost("/", async ([FromBody] CreateEditAuthorRequest request, IAuthorWriteRepository authorRepository, CancellationToken cancelationToken) =>
+            group.MapPost("/", async ([FromBody] CreateEditAuthorRequest request, IAuthorRepository authorRepository, CancellationToken cancelationToken) =>
             {
                 var author = Author.Create(request.Name);
 
@@ -28,7 +28,7 @@ namespace FaccToolkit.Examples.MongoDb.RichDomainApi.Endpoints
                 return Results.Created();
             });
 
-            group.MapGet("{id:guid}", async ([FromRoute] Guid id, IAuthorReadRepository authorRepository, CancellationToken cancellationToken) =>
+            group.MapGet("{id:guid}", async ([FromRoute] Guid id, IAuthorRepository authorRepository, CancellationToken cancellationToken) =>
             {
                 var author = await authorRepository.FindByIdAsync(id, cancellationToken);
 
@@ -37,28 +37,28 @@ namespace FaccToolkit.Examples.MongoDb.RichDomainApi.Endpoints
                     : Results.Ok(author);
             });
 
-            group.MapPut("{id:guid}", async ([FromBody] CreateEditAuthorRequest request, [FromRoute] Guid id, IAuthorWriteRepository authorWriteRepository, IAuthorReadRepository authorReadRepository, CancellationToken cancellationToken) =>
+            group.MapPut("{id:guid}", async ([FromBody] CreateEditAuthorRequest request, [FromRoute] Guid id, IAuthorRepository authorRepository, CancellationToken cancellationToken) =>
             {
-                var author = await authorReadRepository.FindByIdAsync(id, cancellationToken);
+                var author = await authorRepository.FindByIdAsync(id, cancellationToken);
 
                 if (author is null)
                     return Results.NotFound();
 
                 author.SetName(request.Name);
 
-                await authorWriteRepository.UpdateAsync(author, cancellationToken);
+                await authorRepository.UpdateAsync(author, cancellationToken);
 
                 return Results.Ok(author);
             });
 
-            group.MapDelete("{id:guid}", async ([FromRoute] Guid id, IAuthorWriteRepository authorWriteRepository, IAuthorReadRepository authorReadRepository, CancellationToken cancellationToken) =>
+            group.MapDelete("{id:guid}", async ([FromRoute] Guid id, IAuthorRepository authorRepository, CancellationToken cancellationToken) =>
             {
-                var author = await authorReadRepository.FindByIdAsync(id, cancellationToken);
+                var author = await authorRepository.FindByIdAsync(id, cancellationToken);
 
                 if (author is null)
                     return Results.NotFound();
 
-                await authorWriteRepository.DeleteAsync(author, cancellationToken);
+                await authorRepository.DeleteAsync(author, cancellationToken);
 
                 return Results.NoContent();
             });

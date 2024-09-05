@@ -11,7 +11,7 @@ namespace FaccToolkit.Examples.MongoDb.AnemicDomainApi.Endpoints
         {
             var group = builder.MapGroup("authors");
 
-            group.MapGet("/", async (IAuthorReadRepository authorRepository, CancellationToken cancellationToken) =>
+            group.MapGet("/", async (IAuthorRepository authorRepository, CancellationToken cancellationToken) =>
             {
                 var authors = await authorRepository.GetAllAsync(cancellationToken);
 
@@ -20,7 +20,7 @@ namespace FaccToolkit.Examples.MongoDb.AnemicDomainApi.Endpoints
                 : Results.NoContent();
             });
 
-            group.MapPost("/", async ([FromBody] CreateEditAuthorRequest request, IAuthorWriteRepository authorRepository, CancellationToken cancelationToken) =>
+            group.MapPost("/", async ([FromBody] CreateEditAuthorRequest request, IAuthorRepository authorRepository, CancellationToken cancelationToken) =>
             {
                 var author = new Author(request.Name);
 
@@ -29,7 +29,7 @@ namespace FaccToolkit.Examples.MongoDb.AnemicDomainApi.Endpoints
                 return Results.Created();
             });
 
-            group.MapGet("{id:guid}", async ([FromRoute] Guid id, IAuthorReadRepository authorRepository, CancellationToken cancellationToken) =>
+            group.MapGet("{id:guid}", async ([FromRoute] Guid id, IAuthorRepository authorRepository, CancellationToken cancellationToken) =>
             {
                 var author = await authorRepository.FindByIdAsync(id, cancellationToken);
 
@@ -38,7 +38,7 @@ namespace FaccToolkit.Examples.MongoDb.AnemicDomainApi.Endpoints
                     : Results.Ok(author);
             });
 
-            group.MapPut("{id:guid}", async ([FromBody] CreateEditAuthorRequest request, [FromRoute] Guid id, IAuthorWriteRepository authorRepository, CancellationToken cancellationToken) =>
+            group.MapPut("{id:guid}", async ([FromBody] CreateEditAuthorRequest request, [FromRoute] Guid id, IAuthorRepository authorRepository, CancellationToken cancellationToken) =>
             {
                 var author = new Author(id, request.Name);
 
@@ -47,7 +47,7 @@ namespace FaccToolkit.Examples.MongoDb.AnemicDomainApi.Endpoints
                 return Results.Ok(author);
             });
 
-            group.MapDelete("{id:guid}", async ([FromRoute] Guid id, IAuthorWriteRepository authorRepository, CancellationToken cancellationToken) =>
+            group.MapDelete("{id:guid}", async ([FromRoute] Guid id, IAuthorRepository authorRepository, CancellationToken cancellationToken) =>
             {
                 await authorRepository.DeleteAsync(id, cancellationToken);
 

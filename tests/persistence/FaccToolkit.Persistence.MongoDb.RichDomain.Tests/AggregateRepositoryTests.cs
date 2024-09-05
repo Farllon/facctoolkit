@@ -7,8 +7,44 @@ using System.Linq.Expressions;
 
 namespace FaccToolkit.Persistence.MongoDb.RichDomain.Tests
 {
-    public class WriteRepositoryTests
+    public class AggregateRepositoryTests
     {
+        [Fact]
+        public async void GivenExistingEntity_WhenFindById_ShouldReturnTheFOundEntity()
+        {
+            var contextMock = new Mock<IMongoDbContext>();
+            var collectionMock = Mock.Of<IMongoCollection<TestAggregate>>();
+            var modelRepositoryMock = new Mock<IModelRepository<TestAggregate>>();
+            var entity = new TestAggregate();
+
+            contextMock
+                .Setup(context => context.GetCollection<TestAggregate, Guid>(It.IsAny<string>()))
+                .Returns(collectionMock);
+
+            contextMock
+                .Setup(context => context.GetModelRepository<TestAggregate>(
+                    It.IsAny<string>(),
+                    It.IsAny<ILogger>()))
+                .Returns(modelRepositoryMock.Object);
+
+            modelRepositoryMock
+                .Setup(modelRepository => modelRepository.FindByIdAsync<Guid>(
+                    It.IsAny<Expression<Func<TestAggregate, Guid>>>(),
+                    entity.Id,
+                    It.IsAny<CancellationToken>()))
+                .Returns(Task.FromResult<TestAggregate?>(entity));
+
+            var repository = new AggregateRepository<TestAggregate, Guid>(
+                "test-collection",
+                contextMock.Object,
+                Mock.Of<ILogger<AggregateRepository<TestAggregate, Guid>>>(),
+                Mock.Of<IDomainEventDispatcher>());
+
+            var result = await repository.FindByIdAsync(entity.Id, CancellationToken.None);
+
+            Assert.Equivalent(entity, result);
+        }
+
         [Fact]
         public async Task WhenInsert_ShouldCallModelRepositoryInsertAndDispatchEvents()
         {
@@ -44,10 +80,10 @@ namespace FaccToolkit.Persistence.MongoDb.RichDomain.Tests
                     It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
-            var repository = new WriteRepository<TestAggregate, Guid>(
+            var repository = new AggregateRepository<TestAggregate, Guid>(
                 "test-collection",
                 contextMock.Object,
-                Mock.Of<ILogger<WriteRepository<TestAggregate, Guid>>>(),
+                Mock.Of<ILogger<AggregateRepository<TestAggregate, Guid>>>(),
                 dispatcherMock.Object);
 
             await repository.InsertAsync(entity, CancellationToken.None);
@@ -104,10 +140,10 @@ namespace FaccToolkit.Persistence.MongoDb.RichDomain.Tests
                     It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
-            var repository = new WriteRepository<TestAggregate, Guid>(
+            var repository = new AggregateRepository<TestAggregate, Guid>(
                 "test-collection",
                 contextMock.Object,
-                Mock.Of<ILogger<WriteRepository<TestAggregate, Guid>>>(),
+                Mock.Of<ILogger<AggregateRepository<TestAggregate, Guid>>>(),
                 dispatcherMock.Object);
 
             await repository.InsertAsync(entities, CancellationToken.None);
@@ -160,10 +196,10 @@ namespace FaccToolkit.Persistence.MongoDb.RichDomain.Tests
                     It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
-            var repository = new WriteRepository<TestAggregate, Guid>(
+            var repository = new AggregateRepository<TestAggregate, Guid>(
                 "test-collection",
                 contextMock.Object,
-                Mock.Of<ILogger<WriteRepository<TestAggregate, Guid>>>(),
+                Mock.Of<ILogger<AggregateRepository<TestAggregate, Guid>>>(),
                 dispatcherMock.Object);
 
             await repository.UpdateAsync(entity, CancellationToken.None);
@@ -216,10 +252,10 @@ namespace FaccToolkit.Persistence.MongoDb.RichDomain.Tests
                     It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
-            var repository = new WriteRepository<TestAggregate, Guid>(
+            var repository = new AggregateRepository<TestAggregate, Guid>(
                 "test-collection",
                 contextMock.Object,
-                Mock.Of<ILogger<WriteRepository<TestAggregate, Guid>>>(),
+                Mock.Of<ILogger<AggregateRepository<TestAggregate, Guid>>>(),
                 dispatcherMock.Object);
 
             await repository.DeleteAsync(entity, CancellationToken.None);
@@ -245,7 +281,7 @@ namespace FaccToolkit.Persistence.MongoDb.RichDomain.Tests
             var collectionMock = Mock.Of<IMongoCollection<TestAggregate>>();
             var modelRepositoryMock = new Mock<IModelRepository<TestAggregate>>();
             var dispatcherMock = new Mock<IDomainEventDispatcher>();
-            var loggerMock = new Mock<ILogger<WriteRepository<TestAggregate, Guid>>>();
+            var loggerMock = new Mock<ILogger<AggregateRepository<TestAggregate, Guid>>>();
             var entity = new TestAggregate();
             entity.Created();
 
@@ -272,7 +308,7 @@ namespace FaccToolkit.Persistence.MongoDb.RichDomain.Tests
                     It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
-            var repository = new WriteRepository<TestAggregate, Guid>(
+            var repository = new AggregateRepository<TestAggregate, Guid>(
                 "test-collection",
                 contextMock.Object,
                 loggerMock.Object,
@@ -323,7 +359,7 @@ namespace FaccToolkit.Persistence.MongoDb.RichDomain.Tests
             var collectionMock = Mock.Of<IMongoCollection<TestAggregate>>();
             var modelRepositoryMock = new Mock<IModelRepository<TestAggregate>>();
             var dispatcherMock = new Mock<IDomainEventDispatcher>();
-            var loggerMock = new Mock<ILogger<WriteRepository<TestAggregate, Guid>>>();
+            var loggerMock = new Mock<ILogger<AggregateRepository<TestAggregate, Guid>>>();
             var entity = new TestAggregate();
             entity.Created();
             entity.Updated();
@@ -357,7 +393,7 @@ namespace FaccToolkit.Persistence.MongoDb.RichDomain.Tests
                     It.IsAny<CancellationToken>()))
                 .Throws<Exception>();
 
-            var repository = new WriteRepository<TestAggregate, Guid>(
+            var repository = new AggregateRepository<TestAggregate, Guid>(
                 "test-collection",
                 contextMock.Object,
                 loggerMock.Object,

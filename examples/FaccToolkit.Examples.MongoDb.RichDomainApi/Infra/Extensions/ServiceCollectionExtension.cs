@@ -45,7 +45,7 @@ namespace FaccToolkit.Examples.MongoDb.RichDomainApi.Infra.Extensions
                     return configurations.GetConnectionString("MongoDBReadOnly")!;
                 });
 
-            services.AddRepositories<IAuthorReadRepository, AuthorReadRepository, IAuthorWriteRepository, AuthorWriteRepository, Author, Guid>();
+            services.AddRepository<IAuthorRepository, AuthorRepository, Author, Guid>();
 
             services.AddMongoDbUnitOfWork<MyMongoDbContext>();
 
