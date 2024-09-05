@@ -11,22 +11,25 @@ using System.Threading.Tasks;
 
 namespace FaccToolkit.Persistence.MongoDb.AnemicDomain
 {
-    public class WriteRepository<TEntity, TId> : IWriteRepository<TEntity, TId>
+    public class EntityRepository<TEntity, TId> : IEntityRepository<TEntity, TId>
         where TEntity : class, IEntity<TId>
         where TId : IEquatable<TId>
     {
         protected readonly IMongoDbContext _context;
         protected readonly IMongoCollection<TEntity> _collection;
         protected readonly IModelRepository<TEntity> _modelRepository;
-        protected readonly ILogger<WriteRepository<TEntity, TId>> _logger;
+        protected readonly ILogger<EntityRepository<TEntity, TId>> _logger;
         
-        public WriteRepository(string collectionName, IMongoDbContext context, ILogger<WriteRepository<TEntity, TId>> logger)
+        public EntityRepository(string collectionName, IMongoDbContext context, ILogger<EntityRepository<TEntity, TId>> logger)
         {
             _logger = logger;
             _context = context;
             _collection = context.GetCollection<TEntity, TId>(collectionName);
             _modelRepository = context.GetModelRepository<TEntity>(collectionName, logger);
         }
+
+        public virtual Task<TEntity?> FindByIdAsync(TId id, CancellationToken cancellationToken)
+            => _modelRepository.FindByIdAsync(entity => entity.Id, id, cancellationToken);
 
         public virtual Task InsertAsync(TEntity entity, CancellationToken cancellationToken)
             => _modelRepository.InsertAsync(entity => entity.Id, entity, cancellationToken);

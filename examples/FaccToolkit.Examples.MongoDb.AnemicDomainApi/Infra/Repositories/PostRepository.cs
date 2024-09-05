@@ -6,9 +6,9 @@ using MongoDB.Driver;
 
 namespace FaccToolkit.Examples.MongoDb.AnemicDomainApi.Infra.Repositories
 {
-    public class PostReadRepository : ReadRepository<Post, Guid>, IPostReadRepository
+    public class PostRepository : EntityRepository<Post, Guid>, IPostRepository
     {
-        public PostReadRepository(MyMongoDbReadOnlyContext context, ILogger<PostReadRepository> logger) 
+        public PostRepository(MyMongoDbContext context, ILogger<PostRepository> logger) 
             : base(MongoCollections.Posts, context, logger)
         {
         }

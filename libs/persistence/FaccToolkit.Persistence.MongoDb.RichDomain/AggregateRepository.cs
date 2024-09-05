@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FaccToolkit.Persistence.MongoDb.RichDomain
 {
-    public class WriteRepository<TAggregateRoot, TId> : IWriteRepository<TAggregateRoot, TId>
+    public class AggregateRepository<TAggregateRoot, TId> : IAggregateRepository<TAggregateRoot, TId>
         where TAggregateRoot : class, IAggregateRoot<TId>
         where TId : IEquatable<TId>
     {
@@ -18,9 +18,9 @@ namespace FaccToolkit.Persistence.MongoDb.RichDomain
         protected readonly IDomainEventDispatcher _dispatcher;
         protected readonly IMongoCollection<TAggregateRoot> _collection;
         protected readonly IModelRepository<TAggregateRoot> _modelRepository;
-        protected readonly ILogger<WriteRepository<TAggregateRoot, TId>> _logger;
+        protected readonly ILogger<AggregateRepository<TAggregateRoot, TId>> _logger;
 
-        public WriteRepository(string collectionName, IMongoDbContext context, ILogger<WriteRepository<TAggregateRoot, TId>> logger, IDomainEventDispatcher dispatcher)
+        public AggregateRepository(string collectionName, IMongoDbContext context, ILogger<AggregateRepository<TAggregateRoot, TId>> logger, IDomainEventDispatcher dispatcher)
         {
             _logger = logger;
             _context = context;
@@ -28,6 +28,9 @@ namespace FaccToolkit.Persistence.MongoDb.RichDomain
             _collection = context.GetCollection<TAggregateRoot, TId>(collectionName);
             _modelRepository = context.GetModelRepository<TAggregateRoot>(collectionName, logger);
         }
+
+        public virtual Task<TAggregateRoot?> FindByIdAsync(TId id, CancellationToken cancellationToken)
+            => _modelRepository.FindByIdAsync(aggregate => aggregate.Id, id, cancellationToken);
 
         public virtual async Task InsertAsync(TAggregateRoot aggregate, CancellationToken cancellationToken)
         {

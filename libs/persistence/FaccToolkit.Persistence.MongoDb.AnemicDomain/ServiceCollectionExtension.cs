@@ -11,78 +11,27 @@ namespace FaccToolkit.Persistence.MongoDb.AnemicDomain
     [ExcludeFromCodeCoverage]
     public static class ServiceCollectionExtension
     {
-        public static IServiceCollection AddRepositories<TEntity, TId, TContext>(this IServiceCollection services, string? collectionName = null)
+        public static IServiceCollection AddRepository<TEntity, TId, TContext>(this IServiceCollection services, string? collectionName = null)
             where TEntity : class, IEntity<TId>
             where TId : IEquatable<TId>
             where TContext : class, IMongoDbContext
-            => services
-                .AddReadRepository<TEntity, TId, TContext>(collectionName)
-                .AddWriteRepository<TEntity, TId, TContext>(collectionName);
-
-        public static IServiceCollection AddReadRepository<TEntity, TId, TContext>(this IServiceCollection services, string? collectionName = null)
-            where TEntity : class, IEntity<TId>
-            where TId : IEquatable<TId>
-            where TContext : class, IMongoDbContext
-            => services.AddScoped<IReadRepository<TEntity, TId>, ReadRepository<TEntity, TId>>(provider =>
-                new ReadRepository<TEntity, TId>(
+            => services.AddScoped<IEntityRepository<TEntity, TId>, EntityRepository<TEntity, TId>>(provider =>
+                new EntityRepository<TEntity, TId>(
                     collectionName ?? typeof(TEntity).Name,
                     provider.GetRequiredService<TContext>(),
-                    provider.GetRequiredService<ILogger<ReadRepository<TEntity, TId>>>()));
+                    provider.GetRequiredService<ILogger<EntityRepository<TEntity, TId>>>()));
 
-        public static IServiceCollection AddWriteRepository<TEntity, TId, TContext>(this IServiceCollection services, string? collectionName = null)
+        public static IServiceCollection AddRepository<TRepositoryImplementation, TEntity, TId>(this IServiceCollection services)
+            where TRepositoryImplementation : class, IEntityRepository<TEntity, TId>
             where TEntity : class, IEntity<TId>
             where TId : IEquatable<TId>
-            where TContext : class, IMongoDbContext
-            => services.AddScoped<IWriteRepository<TEntity, TId>, WriteRepository<TEntity, TId>>(provider =>
-                new WriteRepository<TEntity, TId>(
-                    collectionName ?? typeof(TEntity).Name,
-                    provider.GetRequiredService<TContext>(),
-                    provider.GetRequiredService<ILogger<WriteRepository<TEntity, TId>>>()));
+            => services.AddRepository<IEntityRepository<TEntity, TId>, TRepositoryImplementation, TEntity, TId>();
 
-        public static IServiceCollection AddRepositories<TReadRepositoryImplementation, TWriteRepositoryImplementation, TEntity, TId>(this IServiceCollection services)
-            where TReadRepositoryImplementation : class, IReadRepository<TEntity, TId>
-            where TWriteRepositoryImplementation : class, IWriteRepository<TEntity, TId>
+        public static IServiceCollection AddRepository<TRepositoryService, TRepositoryImplementation, TEntity, TId>(this IServiceCollection services)
+            where TRepositoryService : class, IEntityRepository<TEntity, TId>
+            where TRepositoryImplementation : class, TRepositoryService
             where TEntity : class, IEntity<TId>
             where TId : IEquatable<TId>
-            => services
-                .AddReadRepository<TReadRepositoryImplementation, TEntity, TId>()
-                .AddWriteRepository<TWriteRepositoryImplementation, TEntity, TId>();
-
-        public static IServiceCollection AddReadRepository<TReadRepositoryImplementation, TEntity, TId>(this IServiceCollection services)
-            where TReadRepositoryImplementation : class, IReadRepository<TEntity, TId>
-            where TEntity : class, IEntity<TId>
-            where TId : IEquatable<TId>
-            => services.AddReadRepository<IReadRepository<TEntity, TId>, TReadRepositoryImplementation, TEntity, TId>();
-
-        public static IServiceCollection AddWriteRepository<TWriteRepositoryImplementation, TEntity, TId>(this IServiceCollection services)
-            where TWriteRepositoryImplementation : class, IWriteRepository<TEntity, TId>
-            where TEntity : class, IEntity<TId>
-            where TId : IEquatable<TId>
-            => services.AddWriteRepository<IWriteRepository<TEntity, TId>, TWriteRepositoryImplementation, TEntity, TId>();
-
-        public static IServiceCollection AddRepositories<TReadRepositoryService, TReadRepositoryImplementation, TWriteRepositoryService, TWriteRepositoryImplementation, TEntity, TId>(this IServiceCollection services)
-            where TReadRepositoryService : class, IReadRepository<TEntity, TId>
-            where TReadRepositoryImplementation : class, TReadRepositoryService
-            where TWriteRepositoryService : class, IWriteRepository<TEntity, TId>
-            where TWriteRepositoryImplementation : class, TWriteRepositoryService
-            where TEntity : class, IEntity<TId>
-            where TId : IEquatable<TId>
-            => services
-                .AddReadRepository<TReadRepositoryService, TReadRepositoryImplementation, TEntity, TId>()
-                .AddWriteRepository<TWriteRepositoryService, TWriteRepositoryImplementation, TEntity, TId>();
-
-        public static IServiceCollection AddReadRepository<TReadRepositoryService, TReadRepositoryImplementation, TEntity, TId>(this IServiceCollection services)
-            where TReadRepositoryService : class, IReadRepository<TEntity, TId>
-            where TReadRepositoryImplementation : class, TReadRepositoryService
-            where TEntity : class, IEntity<TId>
-            where TId : IEquatable<TId>
-            => services.AddScoped<TReadRepositoryService, TReadRepositoryImplementation>();
-
-        public static IServiceCollection AddWriteRepository<TWriteRepositoryService, TWriteRepositoryImplementation, TEntity, TId>(this IServiceCollection services)
-            where TWriteRepositoryService : class, IWriteRepository<TEntity, TId>
-            where TWriteRepositoryImplementation : class, TWriteRepositoryService
-            where TEntity : class, IEntity<TId>
-            where TId : IEquatable<TId>
-            => services.AddScoped<TWriteRepositoryService, TWriteRepositoryImplementation>();
+            => services.AddScoped<TRepositoryService, TRepositoryImplementation>();
     }
 }

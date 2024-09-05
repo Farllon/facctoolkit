@@ -61,8 +61,8 @@ namespace FaccToolkit.Examples.MongoDb.AnemicDomainApi.Infra.Extensions
                 options.Converters.Add(new PostConverter());
             });
 
-            services.AddCachedRepositories<IAuthorReadRepository, AuthorCacheReadRepository, AuthorReadRepository, IAuthorWriteRepository, AuthorCacheWriteRepository, AuthorWriteRepository, Author, Guid>();
-            services.AddCachedRepositories<IPostReadRepository, PostCacheReadRepository, PostReadRepository, IPostWriteRepository, PostCacheWriteRepository, PostWriteRepository, Post, Guid>();
+            services.AddCachedRepository<IAuthorRepository, AuthorCacheRepository, AuthorRepository, Author, Guid>();
+            services.AddCachedRepository<IPostRepository, PostCacheRepository, PostRepository, Post, Guid>();
 
             services.AddMongoDbUnitOfWork<MyMongoDbContext>();
         }

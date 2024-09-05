@@ -11,9 +11,9 @@ namespace FaccToolkit.Examples.MongoDb.RichDomainApi.Endpoints
         {
             var group = builder.MapGroup("{authorId}/posts");
 
-            group.MapGet("/", async ([FromRoute] Guid authorId, IAuthorReadRepository authorReadRepository, CancellationToken cancellationToken) =>
+            group.MapGet("/", async ([FromRoute] Guid authorId, IAuthorRepository authorRepository, CancellationToken cancellationToken) =>
             {
-                var author = await authorReadRepository.FindByIdAsync(authorId, cancellationToken);
+                var author = await authorRepository.FindByIdAsync(authorId, cancellationToken);
 
                 if (author is null)
                     return Results.NotFound();
@@ -23,23 +23,23 @@ namespace FaccToolkit.Examples.MongoDb.RichDomainApi.Endpoints
                     : Results.NoContent();
             });
 
-            group.MapPost("/", async ([FromRoute] Guid authorId, [FromBody] CreateEditPostRequest request, IAuthorWriteRepository authorWriteRepository, IAuthorReadRepository authorReadRepository, CancellationToken cancellationToken) =>
+            group.MapPost("/", async ([FromRoute] Guid authorId, [FromBody] CreateEditPostRequest request, IAuthorRepository authorRepository, CancellationToken cancellationToken) =>
             {
-                var author = await authorReadRepository.FindByIdAsync(authorId, cancellationToken);
+                var author = await authorRepository.FindByIdAsync(authorId, cancellationToken);
 
                 if (author is null)
                     return Results.NotFound();
 
                 var post = author.CreatePost(request.Title, request.Content);
 
-                await authorWriteRepository.UpdateAsync(author, cancellationToken);
+                await authorRepository.UpdateAsync(author, cancellationToken);
 
                 return Results.Created();
             });
 
-            group.MapGet("{id}", async ([FromRoute] Guid authorId, [FromRoute] Guid id, IAuthorReadRepository authorReadRepository, CancellationToken cancellationToken) =>
+            group.MapGet("{id}", async ([FromRoute] Guid authorId, [FromRoute] Guid id, IAuthorRepository authorRepository, CancellationToken cancellationToken) =>
             {
-                var author = await authorReadRepository.FindByIdAsync(authorId, cancellationToken);
+                var author = await authorRepository.FindByIdAsync(authorId, cancellationToken);
 
                 if (author is null)
                     return Results.NotFound();
@@ -51,9 +51,9 @@ namespace FaccToolkit.Examples.MongoDb.RichDomainApi.Endpoints
                     : Results.Ok(post);
             });
 
-            group.MapPut("{id}", async ([FromRoute] Guid authorId, [FromBody] CreateEditPostRequest request, [FromRoute] Guid id, IAuthorWriteRepository authorWriteRepository, IAuthorReadRepository authorReadRepository, CancellationToken cancellationToken) =>
+            group.MapPut("{id}", async ([FromRoute] Guid authorId, [FromBody] CreateEditPostRequest request, [FromRoute] Guid id, IAuthorRepository authorRepository, CancellationToken cancellationToken) =>
             {
-                var author = await authorReadRepository.FindByIdAsync(authorId, cancellationToken);
+                var author = await authorRepository.FindByIdAsync(authorId, cancellationToken);
 
                 if (author is null)
                     return Results.NotFound();
@@ -66,14 +66,14 @@ namespace FaccToolkit.Examples.MongoDb.RichDomainApi.Endpoints
                 post.SetTitle(request.Title);
                 post.SetContent(request.Content);
 
-                await authorWriteRepository.UpdateAsync(author, cancellationToken);
+                await authorRepository.UpdateAsync(author, cancellationToken);
 
                 return Results.Ok(post);
             });
 
-            group.MapDelete("{id}", async ([FromRoute] Guid authorId, [FromRoute] Guid id, IAuthorWriteRepository authorWriteRepository, IAuthorReadRepository authorReadRepository, CancellationToken cancellationToken) =>
+            group.MapDelete("{id}", async ([FromRoute] Guid authorId, [FromRoute] Guid id, IAuthorRepository authorRepository, CancellationToken cancellationToken) =>
             {
-                var author = await authorReadRepository.FindByIdAsync(authorId, cancellationToken);
+                var author = await authorRepository.FindByIdAsync(authorId, cancellationToken);
 
                 if (author is null)
                     return Results.NotFound();
@@ -83,7 +83,7 @@ namespace FaccToolkit.Examples.MongoDb.RichDomainApi.Endpoints
                 if (!removed)
                     return Results.NotFound();
 
-                await authorWriteRepository.UpdateAsync(author, cancellationToken);
+                await authorRepository.UpdateAsync(author, cancellationToken);
 
                 return Results.NoContent();
             });
