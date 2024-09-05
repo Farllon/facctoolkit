@@ -1,17 +1,15 @@
-﻿using FaccToolkit.Examples.AnemicDomain.Entities;
-using FaccToolkit.Examples.AnemicDomain.Repositories;
-using FaccToolkit.Examples.MongoDb.AnemicDomainApi.Infra.Data;
-using FaccToolkit.Persistence.MongoDb.AnemicDomain;
+﻿using FaccToolkit.Domain.Rich;
+using FaccToolkit.Examples.RichDomain.Aggregations.Authors;
+using FaccToolkit.Persistence.MongoDb.RichDomain;
 using MongoDB.Driver;
 
-namespace FaccToolkit.Examples.MongoDb.AnemicDomainApi.Infra.Repositories
+namespace FaccToolkit.Examples.MongoDb.RichDomainApi.Infra.Data.Repositories
 {
-    public class AuthorReadRepository : ReadRepository<Author, Guid>, IAuthorReadRepository
+    public class AuthorRepository : AggregateRepository<Author, Guid>, IAuthorRepository
     {
-        public AuthorReadRepository(MyMongoDbReadOnlyContext context, ILogger<AuthorReadRepository> logger) 
-            : base(MongoCollections.Authors, context, logger)
+        public AuthorRepository(MyMongoDbContext context, ILogger<AuthorRepository> logger, IDomainEventDispatcher dispatcher) 
+            : base(MongoCollections.Authors, context, logger, dispatcher)
         {
-
         }
 
         public Task<IReadOnlyCollection<Author>> GetAllAsync(CancellationToken cancellationToken)

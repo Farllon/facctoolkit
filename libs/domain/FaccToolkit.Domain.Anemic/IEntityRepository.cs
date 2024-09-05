@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace FaccToolkit.Domain.Anemic
 {
-    public interface IWriteRepository<in TEntity, in TId> : IRepository<TEntity, TId>
+    public interface IEntityRepository<TEntity, in TId> : IRepository<TEntity, TId>
         where TEntity : class, IEntity<TId>
         where TId : IEquatable<TId>
     {
+        Task<TEntity?> FindByIdAsync(TId id, CancellationToken cancellationToken);
+
         Task InsertAsync(TEntity entity, CancellationToken cancellationToken);
 
         Task InsertAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken);

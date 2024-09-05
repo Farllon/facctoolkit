@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace FaccToolkit.Domain.Rich
 {
-    public interface IWriteRepository<in TAggregateRoot, in TId> : IRepository<TAggregateRoot, TId>
+    public interface IAggregateRepository<TAggregateRoot, in TId> : IRepository<TAggregateRoot, TId>
         where TAggregateRoot : class, IAggregateRoot<TId>
         where TId : IEquatable<TId>
     {
+        Task<TAggregateRoot?> FindByIdAsync(TId id, CancellationToken cancellationToken);
+
         Task InsertAsync(TAggregateRoot aggregate, CancellationToken cancellationToken);
 
         Task InsertAsync(IEnumerable<TAggregateRoot> aggregates, CancellationToken cancellationToken);

@@ -9,27 +9,56 @@ using System.Threading.Tasks;
 
 namespace FaccToolkit.Persistence.Extensions.Caching.RichDomain
 {
-    public class CacheWriteRepository<TWriteRepository, TAggregateRoot, TId> : IWriteRepository<TAggregateRoot, TId>
-        where TWriteRepository : IWriteRepository<TAggregateRoot, TId>
+    public class CacheRepository<TRepository, TAggregateRoot, TId> : IAggregateRepository<TAggregateRoot, TId>
+        where TRepository : IAggregateRepository<TAggregateRoot, TId>
         where TAggregateRoot : class, IAggregateRoot<TId>
         where TId : IEquatable<TId>
     {
         protected readonly ICacheFacade _cacheFacade;
-        protected readonly TWriteRepository _dbWriteRepository;
-        protected readonly ILogger<CacheWriteRepository<TWriteRepository, TAggregateRoot, TId>> _logger;
+        protected readonly TRepository _dbRepository;
+        protected readonly ILogger<CacheRepository<TRepository, TAggregateRoot, TId>> _logger;
 
-        public CacheWriteRepository(ICacheFacade cacheFacade, TWriteRepository dbReadRepository, ILogger<CacheWriteRepository<TWriteRepository, TAggregateRoot, TId>> logger)
+        public CacheRepository(ICacheFacade cacheFacade, TRepository dbReadRepository, ILogger<CacheRepository<TRepository, TAggregateRoot, TId>> logger)
         {
             _cacheFacade = cacheFacade;
-            _dbWriteRepository = dbReadRepository;
+            _dbRepository = dbReadRepository;
             _logger = logger;
+        }
+
+        public virtual async Task<TAggregateRoot?> FindByIdAsync(TId id, CancellationToken cancellationToken)
+        {
+            using var _ = _logger.BeginScope("Find in cache by id flow");
+
+            _logger.LogInformation("Generating key");
+
+            var key = _cacheFacade.GenerateKey<TAggregateRoot>(id.ToString());
+
+            _logger.LogInformation("Trying to get {Key} from cache", key);
+
+            var aggregate = await _cacheFacade.TryGetAsync<TAggregateRoot>(key, cancellationToken);
+
+            if (aggregate != null)
+                return aggregate;
+
+            _logger.LogInformation("Not found on cache. Trying to get from database");
+
+            aggregate = await _dbRepository.FindByIdAsync(id, cancellationToken);
+
+            if (aggregate != null)
+            {
+                _logger.LogInformation("Setting {Key} on cache", key);
+
+                await _cacheFacade.SetAsync(key, aggregate, cancellationToken);
+            }
+
+            return aggregate;
         }
 
         public virtual async Task InsertAsync(TAggregateRoot aggregate, CancellationToken cancellationToken)
         {
             using var _ = _logger.BeginScope("Insert cache flow");
          
-            await _dbWriteRepository.InsertAsync(aggregate, cancellationToken);
+            await _dbRepository.InsertAsync(aggregate, cancellationToken);
 
             _logger.LogInformation("Generating key");
             
@@ -44,7 +73,7 @@ namespace FaccToolkit.Persistence.Extensions.Caching.RichDomain
         {
             using var _ = _logger.BeginScope("Insert cache flow");
             
-            await _dbWriteRepository.InsertAsync(aggregate, cancellationToken);
+            await _dbRepository.InsertAsync(aggregate, cancellationToken);
 
             var tasks = aggregate.Select(entity =>
             {
@@ -64,7 +93,7 @@ namespace FaccToolkit.Persistence.Extensions.Caching.RichDomain
         {
             using var _ = _logger.BeginScope("Update cache flow");
             
-            await _dbWriteRepository.UpdateAsync(aggregate, cancellationToken);
+            await _dbRepository.UpdateAsync(aggregate, cancellationToken);
 
             _logger.LogInformation("Generating key");
 
@@ -79,7 +108,7 @@ namespace FaccToolkit.Persistence.Extensions.Caching.RichDomain
         {
             using var _ = _logger.BeginScope("Delete cache flow");
             
-            await _dbWriteRepository.DeleteAsync(aggregate, cancellationToken);
+            await _dbRepository.DeleteAsync(aggregate, cancellationToken);
 
             _logger.LogInformation("Generating key");
             

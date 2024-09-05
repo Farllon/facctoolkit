@@ -1,12 +1,14 @@
-﻿using FaccToolkit.Examples.RichDomain.Aggregations.Authors;
-using FaccToolkit.Persistence.MongoDb.RichDomain;
+﻿using FaccToolkit.Examples.AnemicDomain.Entities;
+using FaccToolkit.Examples.AnemicDomain.Repositories;
+using FaccToolkit.Examples.MongoDb.AnemicDomainApi.Infra.Data;
+using FaccToolkit.Persistence.MongoDb.AnemicDomain;
 using MongoDB.Driver;
 
-namespace FaccToolkit.Examples.MongoDb.RichDomainApi.Infra.Data.Repositories
+namespace FaccToolkit.Examples.MongoDb.AnemicDomainApi.Infra.Repositories
 {
-    public class AuthorReadRepository : ReadRepository<Author, Guid>, IAuthorReadRepository
+    public class AuthorRepository : EntityRepository<Author, Guid>, IAuthorRepository
     {
-        public AuthorReadRepository(MyMongoDbReadOnlyContext context, ILogger<AuthorReadRepository> logger) 
+        public AuthorRepository(MyMongoDbContext context, ILogger<AuthorRepository> logger) 
             : base(MongoCollections.Authors, context, logger)
         {
         }

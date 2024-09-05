@@ -5,15 +5,15 @@ using FaccToolkit.Persistence.Extensions.Caching.AnemicDomain;
 
 namespace FaccToolkit.Examples.MongoDb.AnemicDomainApi.Infra.Repositories
 {
-    public class AuthorCacheReadRepository : CacheReadRepository<AuthorReadRepository, Author, Guid>, IAuthorReadRepository
+    public class AuthorCacheRepository : CacheRepository<AuthorRepository, Author, Guid>, IAuthorRepository
     {
-        public AuthorCacheReadRepository(ICacheFacade cacheFacade, AuthorReadRepository dbReadRepository, ILogger<AuthorCacheReadRepository> logger) 
+        public AuthorCacheRepository(ICacheFacade cacheFacade, AuthorRepository dbReadRepository, ILogger<AuthorCacheRepository> logger)
             : base(cacheFacade, dbReadRepository, logger)
         {
 
         }
 
         public Task<IReadOnlyCollection<Author>> GetAllAsync(CancellationToken cancellationToken)
-            => _dbReadRepository.GetAllAsync(cancellationToken);
+            => _dbRepository.GetAllAsync(cancellationToken);
     }
 }
