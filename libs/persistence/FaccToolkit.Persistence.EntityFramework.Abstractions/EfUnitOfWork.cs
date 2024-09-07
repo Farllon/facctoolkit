@@ -1,6 +1,5 @@
 ﻿using FaccToolkit.Persistence.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace FaccToolkit.Persistence.EntityFramework.Abstractions
 {

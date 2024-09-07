@@ -1,29 +1,17 @@
 ﻿namespace FaccToolkit.Results.Abstractions
 {
-    public class Result
+    public static class Result
     {
-        public bool IsSuccess => Type is ResultType.Success;
+        public static BaseResult Success()
+            => new BaseResult(ResultType.Success, null);
 
-        public ResultType Type { get; }
+        public static BaseResult Failure(string message)
+            => new BaseResult(ResultType.Failure, message);
 
-        public string? Message { get; }
+        public static EvaluatedResult<T> Success<T>(T data)
+            => new EvaluatedResult<T>(ResultType.Success, null, data);
 
-        public Result(ResultType type, string? message) 
-        {
-            Type = type;
-            Message = message;
-        }
-    }
-
-    public class Result<T> : Result
-    {
-        private T _value;
-
-        public T Value => IsSuccess ? _value : throw FailureResultGetValueException.Instance;
-
-        public Result(ResultType type, string? message, T value) : base(type, message)
-        {
-            _value = value;
-        }
+        public static EvaluatedResult<T> Failure<T>(string message)
+            => new EvaluatedResult<T>(ResultType.Failure, message, default!);
     }
 }

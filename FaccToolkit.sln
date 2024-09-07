@@ -89,11 +89,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Caching.Redis.T
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EntityFramework", "EntityFramework", "{82ED57F7-BA69-4164-9059-7B99045918F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaccToolkit.Persistence.EntityFramework.Abstractions", "libs\persistence\FaccToolkit.Persistence.EntityFramework.Abstractions\FaccToolkit.Persistence.EntityFramework.Abstractions.csproj", "{3D77DB35-C578-463D-BAE9-A5CC7669CF52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Persistence.EntityFramework.Abstractions", "libs\persistence\FaccToolkit.Persistence.EntityFramework.Abstractions\FaccToolkit.Persistence.EntityFramework.Abstractions.csproj", "{3D77DB35-C578-463D-BAE9-A5CC7669CF52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaccToolkit.Persistence.EntityFramework.AnemicDomain", "libs\persistence\FaccToolkit.Persistence.EntityFramework.AnemicDomain\FaccToolkit.Persistence.EntityFramework.AnemicDomain.csproj", "{EECE18E5-DE28-48A6-9AE8-5206E639B328}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Persistence.EntityFramework.AnemicDomain", "libs\persistence\FaccToolkit.Persistence.EntityFramework.AnemicDomain\FaccToolkit.Persistence.EntityFramework.AnemicDomain.csproj", "{EECE18E5-DE28-48A6-9AE8-5206E639B328}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaccToolkit.Persistence.EntityFramework.RichDomain", "libs\persistence\FaccToolkit.Persistence.EntityFramework.RichDomain\FaccToolkit.Persistence.EntityFramework.RichDomain.csproj", "{1AE02936-0AEC-4044-956C-A758322F7432}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Persistence.EntityFramework.RichDomain", "libs\persistence\FaccToolkit.Persistence.EntityFramework.RichDomain\FaccToolkit.Persistence.EntityFramework.RichDomain.csproj", "{1AE02936-0AEC-4044-956C-A758322F7432}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EntityFramework", "EntityFramework", "{D95EEC73-93D8-4741-B349-15C8FB61963F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Persistence.EntityFramework.Abstractions.Tests", "tests\persistence\FaccToolkit.Persistence.EntityFramework.Abstractions.Tests\FaccToolkit.Persistence.EntityFramework.Abstractions.Tests.csproj", "{4BAFB3C4-B409-473A-B2D9-3B2F297D31DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -221,6 +225,10 @@ Global
 		{1AE02936-0AEC-4044-956C-A758322F7432}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AE02936-0AEC-4044-956C-A758322F7432}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AE02936-0AEC-4044-956C-A758322F7432}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BAFB3C4-B409-473A-B2D9-3B2F297D31DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BAFB3C4-B409-473A-B2D9-3B2F297D31DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BAFB3C4-B409-473A-B2D9-3B2F297D31DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BAFB3C4-B409-473A-B2D9-3B2F297D31DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -269,6 +277,8 @@ Global
 		{3D77DB35-C578-463D-BAE9-A5CC7669CF52} = {82ED57F7-BA69-4164-9059-7B99045918F3}
 		{EECE18E5-DE28-48A6-9AE8-5206E639B328} = {82ED57F7-BA69-4164-9059-7B99045918F3}
 		{1AE02936-0AEC-4044-956C-A758322F7432} = {82ED57F7-BA69-4164-9059-7B99045918F3}
+		{D95EEC73-93D8-4741-B349-15C8FB61963F} = {53FE0CEC-019F-4EE3-A0ED-91A770D1A530}
+		{4BAFB3C4-B409-473A-B2D9-3B2F297D31DC} = {D95EEC73-93D8-4741-B349-15C8FB61963F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED848D68-56CD-4074-83A4-FFE29532A82B}
