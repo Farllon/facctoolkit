@@ -50,7 +50,7 @@ jobs:
     - name: Upload NuGet package to GitHub
       uses: actions/upload-artifact@v2
       with:
-        name: nugetPackage
+        name: pkgs
         path: bin/pkgs/
 
   release:
@@ -61,20 +61,11 @@ jobs:
     - name: Download nuget package artifact
       uses: actions/download-artifact@v1.0.0
       with:
-        name: nugetPackage
+        name: pkgs
 
     - name: Prep packages
-      run: dotnet nuget add source ""https://api.nuget.org/v3/index.json" -n "nuget.org"
+      run: dotnet nuget add source "https://api.nuget.org/v3/index.json" -n "nuget.org"
 
     - name: Push package to GitHub packages 
       if: needs.build.outputs.CommitsSinceVersionSource > 0 
-      run: dotnet nuget push nugetPackage/*.nupkg --api-key ${{ secrets.NUGET_PACKAGE_TOKEN }} --source "nuget.org"
-
-    - name: Create Release
-      if: needs.build.outputs.CommitsSinceVersionSource > 0
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.FARLLON_TOKEN }}
-      with:
-        tag_name: ${{ needs.build.outputs.Version }}
-        release_name: Release ${{ needs.build.outputs.Version }}
+      run: dotnet nuget push pkgs/*.nupkg --api-key ${{ secrets.NUGET_PACKAGE_TOKEN }} --source "nuget.org"
