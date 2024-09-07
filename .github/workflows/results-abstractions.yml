@@ -5,6 +5,7 @@ on:
     branches: [master]
     paths:
       - 'libs/results/FaccToolkit.Results.Abstractions/**'
+  workflow_dispatch:
 
 jobs:
   build:
