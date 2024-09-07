@@ -45,13 +45,13 @@ jobs:
           8.0.x
 
     - name: Build and Pack NuGet package
-      run: dotnet pack ${{ inputs.project }} -p:Version='${{ steps.gitversion.outputs.SemVer }}' -c Release
+      run: dotnet pack ${{ inputs.project }} -p:Version='${{ steps.gitversion.outputs.SemVer }}' -c Release -o bin/pkgs
 
     - name: Upload NuGet package to GitHub
       uses: actions/upload-artifact@v2
       with:
         name: nugetPackage
-        path: bin/Release/
+        path: bin/pkgs/
 
   release:
     runs-on: ubuntu-latest    
