@@ -1,12 +1,12 @@
-name: Pack FaccToolkit.Persistence.EntityFramework.Anemic
+name: Pack FaccToolkit.Persistence.EntityFramework.AnemicDomain
 
 on:
   push:
     branches: [master]
     paths:
-      - 'libs/persistence/FaccToolkit.Persistence.EntityFramework.Anemic/**'
+      - 'libs/persistence/FaccToolkit.Persistence.EntityFramework.AnemicDomain/**'
   workflow_run:
-    workflows: ["Pack FaccToolkit.Persistence.EntityFramework.Abstractions", "Pack FaccToolkit.Domain.Anemic"]
+    workflows: ["Pack FaccToolkit.Persistence.EntityFramework.Abstractions"]
     types:
       - completed
 
@@ -14,6 +14,6 @@ jobs:
   build:
     uses: ./.github/workflows/build-nuget.yml
     with:
-      project: libs/persistence/FaccToolkit.Persistence.EntityFramework.Anemic
+      project: libs/persistence/FaccToolkit.Persistence.EntityFramework.AnemicDomain
     secrets:
       NUGET_PACKAGE_TOKEN: ${{ secrets.NUGET_PACKAGE_TOKEN }}

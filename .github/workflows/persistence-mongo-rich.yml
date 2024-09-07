@@ -1,12 +1,12 @@
-name: Pack FaccToolkit.Persistence.MongoDb.Rich
+name: Pack FaccToolkit.Persistence.MongoDb.RichDomain
 
 on:
   push:
     branches: [master]
     paths:
-      - 'libs/persistence/FaccToolkit.Persistence.MongoDb.Rich/**'
+      - 'libs/persistence/FaccToolkit.Persistence.MongoDb.RichDomain/**'
   workflow_run:
-    workflows: ["Pack FaccToolkit.Persistence.MongoDb.Abstractions", "Pack FaccToolkit.Domain.Rich"]
+    workflows: ["Pack FaccToolkit.Persistence.MongoDb.Abstractions"]
     types:
       - completed
 
@@ -14,6 +14,6 @@ jobs:
   build:
     uses: ./.github/workflows/build-nuget.yml
     with:
-      project: libs/persistence/FaccToolkit.Persistence.MongoDb.Rich
+      project: libs/persistence/FaccToolkit.Persistence.MongoDb.RichDomain
     secrets:
       NUGET_PACKAGE_TOKEN: ${{ secrets.NUGET_PACKAGE_TOKEN }}

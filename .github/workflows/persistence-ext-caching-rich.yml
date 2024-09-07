@@ -6,7 +6,7 @@ on:
     paths:
       - 'libs/persistence/FaccToolkit.Persistence.Extensions.Caching.RichDomain/**'
   workflow_run:
-    workflows: ["Pack FaccToolkit.Domain.Rich", "Pack FaccToolkit.Caching.Abstractions"]
+    workflows: ["Pack FaccToolkit.Caching.Abstractions"]
     types:
       - completed
 
