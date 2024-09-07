@@ -63,9 +63,6 @@ jobs:
       with:
         name: pkgs
 
-    - name: Prep packages
-      run: dotnet nuget add source "https://api.nuget.org/v3/index.json" -n "nuget.org"
-
     - name: Push package to GitHub packages 
       if: needs.build.outputs.CommitsSinceVersionSource > 0 
       run: dotnet nuget push pkgs/*.nupkg --api-key ${{ secrets.NUGET_PACKAGE_TOKEN }} --source "nuget.org"
