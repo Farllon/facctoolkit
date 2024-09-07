@@ -116,7 +116,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
                 logger => logger.Log(
                     LogLevel.Error,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} model with {1} id find operation in mongo {2} collection was failed", typeof(TestModel), id, _collectionName))),
+                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} model with {1} id find operation in mongo {2} collection failed", typeof(TestModel), id, _collectionName))),
                     It.IsNotNull<Exception>(),
                     (Func<It.IsAnyType, Exception?, string>)It.IsAny<object>()),
                 Times.Once);
@@ -170,7 +170,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
                 logger => logger.Log(
                     LogLevel.Error,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} model with {1} id insertion in mongo {2} collection was failed", typeof(TestModel), model.Id, _collectionName))),
+                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} model with {1} id insertion in mongo {2} collection failed", typeof(TestModel), model.Id, _collectionName))),
                     It.IsNotNull<Exception>(),
                     (Func<It.IsAnyType, Exception?, string>)It.IsAny<object>()),
                 Times.Once);
@@ -213,7 +213,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
                 logger => logger.Log(
                     LogLevel.Error,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} model with {1} id insertion in mongo {2} collection was failed", typeof(TestModel), model.Id, _collectionName))),
+                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} model with {1} id insertion in mongo {2} collection failed", typeof(TestModel), model.Id, _collectionName))),
                     It.IsNotNull<Exception>(),
                     (Func<It.IsAnyType, Exception?, string>)It.IsAny<object>()),
                 Times.Once);
@@ -271,7 +271,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
                 logger => logger.Log(
                     LogLevel.Error,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} models insertion in mongo {1} collection was failed", typeof(TestModel), _collectionName))),
+                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} models insertion in mongo {1} collection failed", typeof(TestModel), _collectionName))),
                     It.IsNotNull<Exception>(),
                     (Func<It.IsAnyType, Exception?, string>)It.IsAny<object>()),
                 Times.Once);
@@ -317,7 +317,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
                 logger => logger.Log(
                     LogLevel.Error,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} models insertion in mongo {1} collection was failed", typeof(TestModel), _collectionName))),
+                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} models insertion in mongo {1} collection failed", typeof(TestModel), _collectionName))),
                     It.IsNotNull<Exception>(),
                     (Func<It.IsAnyType, Exception?, string>)It.IsAny<object>()),
                 Times.Once);
@@ -352,7 +352,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
                 logger => logger.Log(
                     LogLevel.Information,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} model with {1} id was was updated in mongo {2} collection", typeof(TestModel), model.Id, _collectionName))),
+                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} model with {1} id was updated in mongo {2} collection", typeof(TestModel), model.Id, _collectionName))),
                     It.IsAny<Exception>(),
                     (Func<It.IsAnyType, Exception?, string>)It.IsAny<object>()),
                 Times.AtLeastOnce);
@@ -424,7 +424,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
                 logger => logger.Log(
                     LogLevel.Error,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} model with {1} id update operation in mongo {2} collection was failed", typeof(TestModel), model.Id, _collectionName))),
+                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} model with {1} id update operation in mongo {2} collection failed", typeof(TestModel), model.Id, _collectionName))),
                     It.IsNotNull<Exception>(),
                     (Func<It.IsAnyType, Exception?, string>)It.IsAny<object>()),
                 Times.Once);
@@ -455,7 +455,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
                 logger => logger.Log(
                     LogLevel.Information,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} model with {1} id was was deleted in mongo {2} collection", typeof(TestModel), model.Id, _collectionName))),
+                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} model with {1} id was deleted in mongo {2} collection", typeof(TestModel), model.Id, _collectionName))),
                     It.IsAny<Exception>(),
                     (Func<It.IsAnyType, Exception?, string>)It.IsAny<object>()),
                 Times.AtLeastOnce);
@@ -526,7 +526,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
                 logger => logger.Log(
                     LogLevel.Error,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} model with {1} id delete operation in mongo {2} collection was failed", typeof(TestModel), model.Id, _collectionName))),
+                    It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains(string.Format("The {0} model with {1} id delete operation in mongo {2} collection failed", typeof(TestModel), model.Id, _collectionName))),
                     It.IsNotNull<Exception>(),
                     (Func<It.IsAnyType, Exception?, string>)It.IsAny<object>()),
                 Times.Once);

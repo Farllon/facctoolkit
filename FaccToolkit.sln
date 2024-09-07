@@ -87,6 +87,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Caching", "Caching", "{C55E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Caching.Redis.Tests", "tests\caching\FaccToolkit.Caching.Redis.Tests\FaccToolkit.Caching.Redis.Tests.csproj", "{297557B1-8F34-4054-9414-D4ED41D35C07}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EntityFramework", "EntityFramework", "{82ED57F7-BA69-4164-9059-7B99045918F3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Persistence.EntityFramework.Abstractions", "libs\persistence\FaccToolkit.Persistence.EntityFramework.Abstractions\FaccToolkit.Persistence.EntityFramework.Abstractions.csproj", "{3D77DB35-C578-463D-BAE9-A5CC7669CF52}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Persistence.EntityFramework.AnemicDomain", "libs\persistence\FaccToolkit.Persistence.EntityFramework.AnemicDomain\FaccToolkit.Persistence.EntityFramework.AnemicDomain.csproj", "{EECE18E5-DE28-48A6-9AE8-5206E639B328}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Persistence.EntityFramework.RichDomain", "libs\persistence\FaccToolkit.Persistence.EntityFramework.RichDomain\FaccToolkit.Persistence.EntityFramework.RichDomain.csproj", "{1AE02936-0AEC-4044-956C-A758322F7432}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EntityFramework", "EntityFramework", "{D95EEC73-93D8-4741-B349-15C8FB61963F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FaccToolkit.Persistence.EntityFramework.Abstractions.Tests", "tests\persistence\FaccToolkit.Persistence.EntityFramework.Abstractions.Tests\FaccToolkit.Persistence.EntityFramework.Abstractions.Tests.csproj", "{4BAFB3C4-B409-473A-B2D9-3B2F297D31DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -201,6 +213,22 @@ Global
 		{297557B1-8F34-4054-9414-D4ED41D35C07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{297557B1-8F34-4054-9414-D4ED41D35C07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{297557B1-8F34-4054-9414-D4ED41D35C07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D77DB35-C578-463D-BAE9-A5CC7669CF52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D77DB35-C578-463D-BAE9-A5CC7669CF52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D77DB35-C578-463D-BAE9-A5CC7669CF52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D77DB35-C578-463D-BAE9-A5CC7669CF52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EECE18E5-DE28-48A6-9AE8-5206E639B328}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EECE18E5-DE28-48A6-9AE8-5206E639B328}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EECE18E5-DE28-48A6-9AE8-5206E639B328}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EECE18E5-DE28-48A6-9AE8-5206E639B328}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AE02936-0AEC-4044-956C-A758322F7432}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AE02936-0AEC-4044-956C-A758322F7432}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AE02936-0AEC-4044-956C-A758322F7432}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AE02936-0AEC-4044-956C-A758322F7432}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BAFB3C4-B409-473A-B2D9-3B2F297D31DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BAFB3C4-B409-473A-B2D9-3B2F297D31DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BAFB3C4-B409-473A-B2D9-3B2F297D31DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BAFB3C4-B409-473A-B2D9-3B2F297D31DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -245,6 +273,12 @@ Global
 		{212F64B7-43C7-48EB-8559-4506C665C001} = {4B0DA39A-CD7F-44E3-B7F0-8DEB2CDCB4AD}
 		{C55E8A1B-F969-4B1A-9A59-AEE41A5B0506} = {5FBB16E5-E453-4608-8409-8D2A4FC76E40}
 		{297557B1-8F34-4054-9414-D4ED41D35C07} = {C55E8A1B-F969-4B1A-9A59-AEE41A5B0506}
+		{82ED57F7-BA69-4164-9059-7B99045918F3} = {0EDCBA29-1478-4647-A54F-BF6F1D87E7CC}
+		{3D77DB35-C578-463D-BAE9-A5CC7669CF52} = {82ED57F7-BA69-4164-9059-7B99045918F3}
+		{EECE18E5-DE28-48A6-9AE8-5206E639B328} = {82ED57F7-BA69-4164-9059-7B99045918F3}
+		{1AE02936-0AEC-4044-956C-A758322F7432} = {82ED57F7-BA69-4164-9059-7B99045918F3}
+		{D95EEC73-93D8-4741-B349-15C8FB61963F} = {53FE0CEC-019F-4EE3-A0ED-91A770D1A530}
+		{4BAFB3C4-B409-473A-B2D9-3B2F297D31DC} = {D95EEC73-93D8-4741-B349-15C8FB61963F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ED848D68-56CD-4074-83A4-FFE29532A82B}

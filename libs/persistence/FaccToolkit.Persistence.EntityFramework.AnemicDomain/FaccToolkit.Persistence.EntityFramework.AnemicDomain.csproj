@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+	  <Nullable>enable</Nullable>
+	  <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\domain\FaccToolkit.Domain.Anemic\FaccToolkit.Domain.Anemic.csproj" />
+    <ProjectReference Include="..\FaccToolkit.Persistence.EntityFramework.Abstractions\FaccToolkit.Persistence.EntityFramework.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
