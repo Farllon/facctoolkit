@@ -1,0 +1,19 @@
+name: Pack FaccToolkit.Persistence.MongoDb.Anemic
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'libs/persistence/FaccToolkit.Persistence.MongoDb.Anemic/**'
+  workflow_run:
+    workflows: ["Pack FaccToolkit.Persistence.MongoDb.Abstractions", "Pack FaccToolkit.Domain.Anemic"]
+    types:
+      - completed
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-nuget.yml
+    with:
+      project: libs/persistence/FaccToolkit.Persistence.MongoDb.Anemic
+    secrets:
+      NUGET_PACKAGE_TOKEN: ${{ secrets.NUGET_PACKAGE_TOKEN }}

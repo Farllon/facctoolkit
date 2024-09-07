@@ -1,0 +1,19 @@
+name: Pack FaccToolkit.Caching.Serializers.System.Text.Json
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'libs/caching/FaccToolkit.Caching.Serializers.System.Text.Json/**'
+  workflow_run:
+    workflows: ["Pack FaccToolkit.Caching.Abstractions"]
+    types:
+      - completed
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-nuget.yml
+    with:
+      project: libs/caching/FaccToolkit.Caching.Serializers.System.Text.Json
+    secrets:
+      NUGET_PACKAGE_TOKEN: ${{ secrets.NUGET_PACKAGE_TOKEN }}

@@ -1,0 +1,19 @@
+name: Pack FaccToolkit.Domain.Rich
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'libs/domain/FaccToolkit.Domain.Rich/**'
+  workflow_run:
+    workflows: ["Pack FaccToolkit.Domain.Abstractions"]
+    types:
+      - completed
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-nuget.yml
+    with:
+      project: libs/domain/FaccToolkit.Domain.Rich
+    secrets:
+      NUGET_PACKAGE_TOKEN: ${{ secrets.NUGET_PACKAGE_TOKEN }}

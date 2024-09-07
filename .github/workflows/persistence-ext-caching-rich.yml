@@ -1,0 +1,19 @@
+name: Pack FaccToolkit.Persistence.Extensions.Caching.RichDomain
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'libs/persistence/FaccToolkit.Persistence.Extensions.Caching.RichDomain/**'
+  workflow_run:
+    workflows: ["Pack FaccToolkit.Domain.Rich", "Pack FaccToolkit.Caching.Abstractions"]
+    types:
+      - completed
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-nuget.yml
+    with:
+      project: libs/persistence/FaccToolkit.Persistence.Extensions.Caching.RichDomain
+    secrets:
+      NUGET_PACKAGE_TOKEN: ${{ secrets.NUGET_PACKAGE_TOKEN }}

@@ -1,0 +1,19 @@
+name: Pack FaccToolkit.Persistence.EntityFramework.Rich
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'libs/persistence/FaccToolkit.Persistence.EntityFramework.Rich/**'
+  workflow_run:
+    workflows: ["Pack FaccToolkit.Persistence.EntityFramework.Abstractions", "Pack FaccToolkit.Domain.Rich"]
+    types:
+      - completed
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-nuget.yml
+    with:
+      project: libs/persistence/FaccToolkit.Persistence.EntityFramework.Rich
+    secrets:
+      NUGET_PACKAGE_TOKEN: ${{ secrets.NUGET_PACKAGE_TOKEN }}

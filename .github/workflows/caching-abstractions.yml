@@ -1,0 +1,15 @@
+name: Pack FaccToolkit.Caching.Abstractions
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'libs/caching/FaccToolkit.Caching.Abstractions/**'
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-nuget.yml
+    with:
+      project: libs/caching/FaccToolkit.Caching.Abstractions
+    secrets:
+      NUGET_PACKAGE_TOKEN: ${{ secrets.NUGET_PACKAGE_TOKEN }}
