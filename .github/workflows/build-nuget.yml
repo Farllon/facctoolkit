@@ -1,15 +1,11 @@
-name: Build and Publish NuGet Package
+name: Build and Publish NuGet Packages
 
 on:
-  workflow_call:
-    inputs:
-      project:
-        description: 'Project to pack'
-        required: true
-        type: string
-    secrets:
-      NUGET_PACKAGE_TOKEN:
-        required: true
+  push:
+    branches: [master]
+    paths:
+      - 'libs/**'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -44,8 +40,11 @@ jobs:
           7.0.x
           8.0.x
 
+    - name: Testing projects
+      run: dotnet test
+
     - name: Build and Pack NuGet package
-      run: dotnet pack ${{ inputs.project }} -p:Version='${{ steps.gitversion.outputs.SemVer }}' -c Release -o bin/pkgs
+      run: dotnet pack -p:Version='${{ steps.gitversion.outputs.SemVer }}' -c Release -o bin/pkgs
 
     - name: Upload NuGet package to GitHub
       uses: actions/upload-artifact@v2

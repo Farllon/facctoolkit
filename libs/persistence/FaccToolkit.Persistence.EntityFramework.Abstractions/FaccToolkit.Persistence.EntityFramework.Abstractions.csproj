@@ -4,11 +4,6 @@
 		<TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Title>$(AssemblyName)</Title>
-		<Authors>Farllon</Authors>
-		<PackageProjectUrl>https://github.com/Farllon/facctoolkit</PackageProjectUrl>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<RepositoryUrl>https://github.com/Farllon/facctoolkit</RepositoryUrl>
 	</PropertyGroup>
 
   <ItemGroup>

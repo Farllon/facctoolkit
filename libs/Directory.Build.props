@@ -1,0 +1,18 @@
+<Project>
+
+    <PropertyGroup>
+		<Title>$(AssemblyName)</Title>
+		<Authors>Farllon</Authors>
+		<PackageProjectUrl>https://github.com/Farllon/facctoolkit</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/Farllon/facctoolkit</RepositoryUrl>
+    </PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+</Project>

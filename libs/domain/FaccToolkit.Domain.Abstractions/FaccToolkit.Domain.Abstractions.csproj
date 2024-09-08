@@ -3,11 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
-	  <Title>$(AssemblyName)</Title>
-	  <Authors>Farllon</Authors>
-	  <PackageProjectUrl>https://github.com/Farllon/facctoolkit</PackageProjectUrl>
-	  <PackageReadmeFile>README.md</PackageReadmeFile>
-	  <RepositoryUrl>https://github.com/Farllon/facctoolkit</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
