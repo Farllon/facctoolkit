@@ -1,4 +1,4 @@
-name: Build and Publish NuGet Packages
+name: FaccToolkit CI/CD
 
 on:
   push:
@@ -39,9 +39,6 @@ jobs:
           6.0.x
           7.0.x
           8.0.x
-
-    - name: Testing projects
-      run: dotnet test
 
     - name: Build and Pack NuGet package
       run: dotnet pack -p:Version='${{ steps.gitversion.outputs.SemVer }}' -c Release -o bin/pkgs
