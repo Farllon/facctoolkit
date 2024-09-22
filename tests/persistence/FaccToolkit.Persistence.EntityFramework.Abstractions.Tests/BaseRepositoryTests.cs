@@ -143,7 +143,7 @@ namespace FaccToolkit.Persistence.EntityFramework.Abstractions.Tests
                 new TestModel()
             };
 
-            await _baseRepository.InsertAsync(models, CancellationToken.None);
+            await _baseRepository.InsertAsync<Guid>(models, CancellationToken.None);
 
             _loggerMock.Verify(
                 logger => logger.Log(
@@ -176,7 +176,7 @@ namespace FaccToolkit.Persistence.EntityFramework.Abstractions.Tests
 
             await _baseRepository.InsertAsync(m => m.Id, existing, CancellationToken.None);
 
-            await Assert.ThrowsAnyAsync<Exception>(() => _baseRepository.InsertAsync(models, CancellationToken.None));
+            await Assert.ThrowsAnyAsync<Exception>(() => _baseRepository.InsertAsync<Guid>(models, CancellationToken.None));
 
             _loggerMock.Verify(
                 logger => logger.Log(
@@ -222,7 +222,7 @@ namespace FaccToolkit.Persistence.EntityFramework.Abstractions.Tests
                 contextMock.Object,
                 _loggerMock.Object);
 
-            await Record.ExceptionAsync(() => repository.InsertAsync(models, CancellationToken.None));
+            await Record.ExceptionAsync(() => repository.InsertAsync<Guid>(models, CancellationToken.None));
 
             _loggerMock.Verify(
                 logger => logger.Log(
@@ -355,7 +355,7 @@ namespace FaccToolkit.Persistence.EntityFramework.Abstractions.Tests
 
             await _baseRepository.InsertAsync(model => model.Id, model, CancellationToken.None);
 
-            await _baseRepository.DeleteAsync(model.Id, CancellationToken.None);
+            await _baseRepository.DeleteAsync(m => m.Id, model.Id, CancellationToken.None);
 
             _loggerMock.Verify(
                 logger => logger.Log(
@@ -381,7 +381,7 @@ namespace FaccToolkit.Persistence.EntityFramework.Abstractions.Tests
         {
             var model = new TestModel();
 
-            await _baseRepository.DeleteAsync(model.Id, CancellationToken.None);
+            await _baseRepository.DeleteAsync(m => m.Id, model.Id, CancellationToken.None);
 
             _loggerMock.Verify(
                 logger => logger.Log(
@@ -428,7 +428,7 @@ namespace FaccToolkit.Persistence.EntityFramework.Abstractions.Tests
                 contextMock.Object,
                 _loggerMock.Object);
 
-            await Record.ExceptionAsync(() => repository.DeleteAsync(model.Id, CancellationToken.None));
+            await Record.ExceptionAsync(() => repository.DeleteAsync(m => m.Id, model.Id, CancellationToken.None));
 
             _loggerMock.Verify(
                 logger => logger.Log(

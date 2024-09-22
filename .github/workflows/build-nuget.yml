@@ -2,7 +2,7 @@ name: FaccToolkit CI/CD
 
 on:
   push:
-    branches: [master]
+    branches: [master, develop]
     paths:
       - 'libs/**'
   workflow_dispatch:

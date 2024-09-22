@@ -5,16 +5,16 @@ using Xunit.Abstractions;
 
 namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
 {
-    public partial class ModelRepositoryTests : IClassFixture<MongoDbFixture>, IDisposable
+    public partial class MongoDocumentRepositoryTests : IClassFixture<MongoDbFixture>, IDisposable
     {
         private readonly MongoDbFixture _fixture;
         private readonly ITestOutputHelper _output;
         private readonly TestMongoDbContext _context;
         private readonly Mock<ILogger<TestMongoDbContext>> _loggerMock;
-        private readonly IModelRepository<TestModel> _modelRepository;
+        private readonly MongoDocumentRepository<TestModel> _modelRepository;
         private const string _collectionName = "test-collection";
 
-        public ModelRepositoryTests(MongoDbFixture fixture, ITestOutputHelper output)
+        public MongoDocumentRepositoryTests(MongoDbFixture fixture, ITestOutputHelper output)
         {
             _fixture = fixture;
             _loggerMock = new Mock<ILogger<TestMongoDbContext>>();
@@ -96,7 +96,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
 
             collectionMock.SetupGet(collection => collection.CollectionNamespace).Returns(new CollectionNamespace("a", _collectionName));
 
-            var repository = new ModelRepository<TestModel>(
+            var repository = new MongoDocumentRepository<TestModel>(
                 _loggerMock.Object,
                 _context,
                 collectionMock.Object);
@@ -193,7 +193,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
                     It.IsAny<CancellationToken>()))
                 .Returns(Task.FromException(new Exception()));
 
-            var repository = new ModelRepository<TestModel>(
+            var repository = new MongoDocumentRepository<TestModel>(
                 _loggerMock.Object,
                 _context,
                 collectionMock.Object);
@@ -227,7 +227,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
                 new TestModel()
             };
 
-            await _modelRepository.InsertAsync(model => model.Id, models, CancellationToken.None);
+            await _modelRepository.InsertAsync<Guid>(models, CancellationToken.None);
 
             _loggerMock.Verify(
                 logger => logger.Log(
@@ -256,7 +256,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
 
             await _modelRepository.InsertAsync(model => model.Id, model, CancellationToken.None);
 
-            await Assert.ThrowsAnyAsync<Exception>(() => _modelRepository.InsertAsync(model => model.Id, models, CancellationToken.None));
+            await Assert.ThrowsAnyAsync<Exception>(() => _modelRepository.InsertAsync<Guid>(models, CancellationToken.None));
 
             _loggerMock.Verify(
                 logger => logger.Log(
@@ -297,12 +297,12 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
                     It.IsAny<CancellationToken>()))
                 .Returns(Task.FromException(new Exception()));
 
-            var repository = new ModelRepository<TestModel>(
+            var repository = new MongoDocumentRepository<TestModel>(
                 _loggerMock.Object,
                 _context,
                 collectionMock.Object);
 
-            await Record.ExceptionAsync(() => repository.InsertAsync(model => model.Id, models, CancellationToken.None));
+            await Record.ExceptionAsync(() => repository.InsertAsync<Guid>(models, CancellationToken.None));
 
             _loggerMock.Verify(
                 logger => logger.Log(
@@ -404,7 +404,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
                     It.IsAny<CancellationToken>()))
                 .Returns(Task.FromException<TestModel>(new Exception()));
 
-            var repository = new ModelRepository<TestModel>(
+            var repository = new MongoDocumentRepository<TestModel>(
                 _loggerMock.Object,
                 _context,
                 collectionMock.Object);
@@ -506,7 +506,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions.Tests
                     It.IsAny<CancellationToken>()))
                 .Returns(Task.FromException<TestModel>(new Exception()));
 
-            var repository = new ModelRepository<TestModel>(
+            var repository = new MongoDocumentRepository<TestModel>(
                 _loggerMock.Object,
                 _context,
                 collectionMock.Object);
