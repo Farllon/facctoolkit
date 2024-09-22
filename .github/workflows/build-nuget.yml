@@ -44,7 +44,7 @@ jobs:
       run: dotnet pack -p:Version='${{ steps.gitversion.outputs.SemVer }}' -c Release -o bin/pkgs
 
     - name: Upload NuGet package to GitHub
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: pkgs
         path: bin/pkgs/
