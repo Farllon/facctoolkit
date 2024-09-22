@@ -27,7 +27,7 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions
         /// <param name="collectionName">The name of the MongoDB collection that stores the models.</param>
         /// <param name="logger">An optional logger instance to be used for logging operations within the repository.</param>
         /// <returns>An <see cref="IModelRepository{TModel}"/> instance for managing the specified model type.</returns>
-        IModelRepository<TModel> GetModelRepository<TModel>(string collectionName, ILogger? logger = null)
+        MongoDocumentRepository<TModel> GetModelRepository<TModel>(string collectionName, ILogger? logger = null)
             where TModel : class;
 
         /// <summary>

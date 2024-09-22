@@ -20,38 +20,18 @@ namespace FaccToolkit.Persistence.EntityFramework.RichDomain
             _dispatcher = domainEventDispatcher;
         }
 
-        public async Task<TAggregateRoot?> FindByIdAsync(TId id, CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("Finding {Model} model with {Id} id in database", typeof(TAggregateRoot), id);
-
-            try
-            {
-                var entity = await _entities
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(e => e.Id.Equals(id), cancellationToken)
-                    .ConfigureAwait(false);
-
-                _logger.LogInformation("Successfully found {Model} model with {Id} id", typeof(TAggregateRoot), id);
-
-                return entity;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to found {Model} model with {Id} id", typeof(TAggregateRoot), id);
-                
-                throw;
-            }
-        }
+        public Task<TAggregateRoot?> FindByIdAsync(TId id, CancellationToken cancellationToken)
+            => base.FindByIdAsync(e => e.Id, id, cancellationToken);
 
         public async Task InsertAsync(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
         {
-            await InsertAsync(e => e.Id, aggregateRoot, cancellationToken);
+            await base.InsertAsync(e => e.Id, aggregateRoot, cancellationToken);
             await DispatchAggregateEventsAsync(aggregateRoot, cancellationToken);
         }
 
-        public override async Task InsertAsync(IEnumerable<TAggregateRoot> aggregates, CancellationToken cancellationToken)
+        public async Task InsertAsync(IEnumerable<TAggregateRoot> aggregates, CancellationToken cancellationToken)
         {
-            await base.InsertAsync(aggregates, cancellationToken);
+            await base.InsertAsync<TId>(aggregates, cancellationToken);
 
             await Task.WhenAll(aggregates
                 .Select(aggregate => DispatchAggregateEventsAsync(aggregate, cancellationToken)));
@@ -59,13 +39,13 @@ namespace FaccToolkit.Persistence.EntityFramework.RichDomain
 
         public async Task UpdateAsync(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
         {
-            await UpdateAsync(e => e.Id, aggregateRoot, cancellationToken);
+            await base.UpdateAsync(e => e.Id, aggregateRoot, cancellationToken);
             await DispatchAggregateEventsAsync(aggregateRoot, cancellationToken);
         }
 
         public async Task DeleteAsync(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
         {
-            await DeleteAsync(aggregateRoot.Id, cancellationToken);
+            await base.DeleteAsync(e => e.Id, aggregateRoot.Id, cancellationToken);
             await DispatchAggregateEventsAsync(aggregateRoot, cancellationToken);
         }
 

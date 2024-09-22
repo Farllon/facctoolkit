@@ -13,7 +13,7 @@ namespace FaccToolkit.Persistence.MongoDb.AnemicDomain.Tests
         {
             var contextMock = new Mock<IMongoDbContext>();
             var collectionMock = Mock.Of<IMongoCollection<TestEntity>>();
-            var modelRepositoryMock = new Mock<IModelRepository<TestEntity>>();
+            var modelRepositoryMock = new Mock<MongoDocumentRepository<TestEntity>>();
             var entity = new TestEntity();
 
             contextMock
@@ -48,7 +48,7 @@ namespace FaccToolkit.Persistence.MongoDb.AnemicDomain.Tests
         {
             var contextMock = new Mock<IMongoDbContext>();
             var collectionMock = Mock.Of<IMongoCollection<TestEntity>>();
-            var modelRepositoryMock = new Mock<IModelRepository<TestEntity>>();
+            var modelRepositoryMock = new Mock<MongoDocumentRepository<TestEntity>>();
             var entity = new TestEntity();
 
             contextMock
@@ -88,7 +88,7 @@ namespace FaccToolkit.Persistence.MongoDb.AnemicDomain.Tests
         {
             var contextMock = new Mock<IMongoDbContext>();
             var collectionMock = Mock.Of<IMongoCollection<TestEntity>>();
-            var modelRepositoryMock = new Mock<IModelRepository<TestEntity>>();
+            var modelRepositoryMock = new Mock<MongoDocumentRepository<TestEntity>>();
             var entity = new TestEntity();
             var entities = new List<TestEntity>
             {
@@ -132,7 +132,7 @@ namespace FaccToolkit.Persistence.MongoDb.AnemicDomain.Tests
         {
             var contextMock = new Mock<IMongoDbContext>();
             var collectionMock = Mock.Of<IMongoCollection<TestEntity>>();
-            var modelRepositoryMock = new Mock<IModelRepository<TestEntity>>();
+            var modelRepositoryMock = new Mock<MongoDocumentRepository<TestEntity>>();
             var entity = new TestEntity();
 
             contextMock
@@ -172,7 +172,7 @@ namespace FaccToolkit.Persistence.MongoDb.AnemicDomain.Tests
         {
             var contextMock = new Mock<IMongoDbContext>();
             var collectionMock = Mock.Of<IMongoCollection<TestEntity>>();
-            var modelRepositoryMock = new Mock<IModelRepository<TestEntity>>();
+            var modelRepositoryMock = new Mock<MongoDocumentRepository<TestEntity>>();
             var entity = new TestEntity();
 
             contextMock

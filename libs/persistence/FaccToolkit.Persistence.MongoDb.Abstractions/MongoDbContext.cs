@@ -49,12 +49,12 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions
             where TId : IEquatable<TId>
             => _database.GetCollection<TEntity>(collectionName);
 
-        public virtual IModelRepository<TModel> GetModelRepository<TModel>(string collectionName, ILogger? logger = null)
+        public virtual MongoDocumentRepository<TModel> GetModelRepository<TModel>(string collectionName, ILogger? logger = null)
             where TModel : class
         {
             var collection = _database.GetCollection<TModel>(collectionName);
 
-            return new ModelRepository<TModel>(logger ?? _logger, this, collection);
+            return new MongoDocumentRepository<TModel>(logger ?? _logger, this, collection);
         }
 
         public virtual void StartTransaction()

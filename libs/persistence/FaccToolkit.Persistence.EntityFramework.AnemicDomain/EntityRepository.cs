@@ -19,36 +19,19 @@ namespace FaccToolkit.Persistence.EntityFramework.AnemicDomain
             _entities = _context.Set<TEntity>();
         }
 
-        public async Task<TEntity?> FindByIdAsync(TId id, CancellationToken cancellationToken)
-        {
-            _logger.LogInformation("Finding {Model} model with {Id} id in database", typeof(TEntity), id);
-
-            try
-            {
-                var entity = await _entities
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(e => e.Id.Equals(id), cancellationToken)
-                    .ConfigureAwait(false);
-
-                _logger.LogInformation("Successfully found {Model} model with {Id} id", typeof(TEntity), id);
-
-                return entity;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to found {Model} model with {Id} id", typeof(TEntity), id);
-                
-                throw;
-            }
-        }
+        public Task<TEntity?> FindByIdAsync(TId id, CancellationToken cancellationToken)
+            => base.FindByIdAsync(e => e.Id, id, cancellationToken);
 
         public Task InsertAsync(TEntity entity, CancellationToken cancellationToken)
-            => InsertAsync(e => e.Id, entity, cancellationToken);
+            => base.InsertAsync(e => e.Id, entity, cancellationToken);
+
+        public Task InsertAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken)
+            => base.InsertAsync<TId>(entities, cancellationToken);
 
         public Task UpdateAsync(TEntity entity, CancellationToken cancellationToken)
-            => UpdateAsync(e => e.Id, entity, cancellationToken);
+            => base.UpdateAsync(e => e.Id, entity, cancellationToken);
 
         public Task DeleteAsync(TId id, CancellationToken cancellationToken)
-            => DeleteAsync<TId>(id, cancellationToken);
+            => base.DeleteAsync(e => e.Id, id, cancellationToken);
     }
 }
