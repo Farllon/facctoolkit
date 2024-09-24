@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace FaccToolkit.Persistence.MongoDb.Abstractions
 {
-    public class MongoDocumentRepository<TModel> : ModelRepository<TModel>
+    public abstract class MongoDocumentRepository<TModel, TId> : ModelRepository<TModel, TId>
         where TModel : class
+        where TId : IEquatable<TId>
     {
         protected readonly IMongoDbContext _context;
         protected readonly IMongoCollection<TModel> _collection;
@@ -21,10 +22,20 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions
             _collection = collection;
         }
 
-        protected override Task<TModel?> InternalFindByIdAsync<TId>(Func<TModel, TId> idSelector, TId id, CancellationToken cancellationToken)
-            => _collection
-                .Find(_context.CurrentSession, GetFilter(model => idSelector(model)!.Equals(id)))
+        protected override Task<TModel?> InternalFindByIdAsync(TId id, CancellationToken cancellationToken)
+        {
+            var queryFilter = GetQueryFilter();
+            var idFilter = Builders<TModel>.Filter.Eq("_id", id);
+            var filter = queryFilter is null
+                ? idFilter
+                : Builders<TModel>.Filter.And(
+                    idFilter,
+                    queryFilter);
+
+            return _collection
+                .Find(_context.CurrentSession, filter)
                 .FirstOrDefaultAsync(cancellationToken)!;
+        }
 
         protected override Task InternalInsertAsync(TModel model, CancellationToken cancellationToken)
             => _collection.InsertOneAsync(_context.CurrentSession, model, cancellationToken: cancellationToken);
@@ -32,23 +43,45 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions
         protected override Task InternalInsertAsync(IEnumerable<TModel> models, CancellationToken cancellationToken)
             => _collection.InsertManyAsync(_context.CurrentSession, models, cancellationToken: cancellationToken);
 
-        protected override Task<TModel?> InternalUpdateAsync<TId>(Func<TModel, TId> idSelector, TModel model, CancellationToken cancellationToken)
+        protected override Task<TModel?> InternalUpdateAsync(TModel model, CancellationToken cancellationToken)
         {
-            var id = idSelector(model);
+            var id = GetId(model);
+            var queryFilter = GetQueryFilter();
+            var idFilter = Builders<TModel>.Filter.Eq("_id", id);
+            var filter = queryFilter is null
+                ? idFilter
+                : Builders<TModel>.Filter.And(
+                    idFilter,
+                    queryFilter);
 
             return _collection
                 .FindOneAndReplaceAsync(
                     _context.CurrentSession,
-                    GetFilter(model => idSelector(model)!.Equals(id)),
+                    filter,
                     model,
                     cancellationToken: cancellationToken)!;
         }
 
-        protected override Task<TModel?> InternalDeleteAsync<TId>(Func<TModel, TId> idSelector, TId id, CancellationToken cancellationToken)
-            => _collection
-                    .FindOneAndDeleteAsync(
-                        _context.CurrentSession,
-                        GetFilter(model => idSelector(model)!.Equals(id)),
-                        cancellationToken: cancellationToken)!;
+        protected override Task<TModel?> InternalDeleteAsync(TId id, CancellationToken cancellationToken)
+        {
+            var queryFilter = GetQueryFilter();
+            var idFilter = Builders<TModel>.Filter.Eq("_id", id);
+            var filter = queryFilter is null
+                ? idFilter
+                : Builders<TModel>.Filter.And(
+                    idFilter,
+                    queryFilter);
+
+            return _collection
+                .FindOneAndDeleteAsync(
+                    _context.CurrentSession,
+                    filter,
+                    cancellationToken: cancellationToken)!;
+        }
+
+        protected virtual FilterDefinition<TModel>? GetQueryFilter()
+        {
+            return null;
+        }
     }
 }

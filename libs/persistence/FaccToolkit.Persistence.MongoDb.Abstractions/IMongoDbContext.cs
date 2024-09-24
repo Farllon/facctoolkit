@@ -21,16 +21,6 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions
             where TId : IEquatable<TId>;
 
         /// <summary>
-        /// Creates an instance of a model repository for the specified model type.
-        /// </summary>
-        /// <typeparam name="TModel">The type of the model managed by the repository.</typeparam>
-        /// <param name="collectionName">The name of the MongoDB collection that stores the models.</param>
-        /// <param name="logger">An optional logger instance to be used for logging operations within the repository.</param>
-        /// <returns>An <see cref="IModelRepository{TModel}"/> instance for managing the specified model type.</returns>
-        MongoDocumentRepository<TModel> GetModelRepository<TModel>(string collectionName, ILogger? logger = null)
-            where TModel : class;
-
-        /// <summary>
         /// Gets the current MongoDB client session, which is used for managing transactions and other session-related operations.
         /// </summary>
         IClientSessionHandle CurrentSession { get; }

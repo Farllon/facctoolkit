@@ -53,7 +53,7 @@ namespace FaccToolkit.Examples.MongoDb.AnemicDomainApi.Infra.Extensions
                 cacheConfig.Prefix = configuration.GetSection("RedisConfiguration").GetSection(nameof(RedisConfiguration.Prefix)).Get<string>()!;
                 cacheConfig.SuppressCacheSetErrors = configuration.GetSection("RedisConfiguration").GetSection(nameof(RedisConfiguration.SuppressCacheSetErrors)).Get<bool>();
                 cacheConfig.ExpirationInMilliseconds = configuration.GetSection("RedisConfiguration").GetSection(nameof(RedisConfiguration.ExpirationInMilliseconds)).Get<int>();
-            });
+            }, provider => "Farllon");
 
             services.AddCacheSerializer(options =>
             {

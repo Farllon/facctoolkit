@@ -100,9 +100,9 @@ namespace FaccToolkit.Persistence.Extensions.Caching.AnemicDomain
 
             var key = _cacheFacade.GenerateKey<TEntity>(entity.Id.ToString());
 
-            _logger.LogInformation("Setting {Key} on cache", key);
+            _logger.LogInformation("Exipiring {Key} from cache", key);
 
-            await _cacheFacade.SetAsync(key, entity, cancellationToken);
+            await _cacheFacade.ExpiryAsync(key, cancellationToken);
         }
 
         public virtual async Task DeleteAsync(TId id, CancellationToken cancellationToken)

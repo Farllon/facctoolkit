@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FaccToolkit.Persistence.EntityFramework.RichDomain
 {
-    public class AggregateRepository<TAggregateRoot, TId, TDbContext> : BaseRepository<TAggregateRoot, TDbContext>, IAggregateRepository<TAggregateRoot, TId>
+    public class AggregateRepository<TAggregateRoot, TId, TDbContext> : BaseRepository<TAggregateRoot, TId, TDbContext>, IAggregateRepository<TAggregateRoot, TId>
         where TAggregateRoot : class, IAggregateRoot<TId>
         where TId : IEquatable<TId>
         where TDbContext : DbContext
@@ -20,32 +20,29 @@ namespace FaccToolkit.Persistence.EntityFramework.RichDomain
             _dispatcher = domainEventDispatcher;
         }
 
-        public Task<TAggregateRoot?> FindByIdAsync(TId id, CancellationToken cancellationToken)
-            => base.FindByIdAsync(e => e.Id, id, cancellationToken);
-
-        public async Task InsertAsync(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
+        async Task IAggregateRepository<TAggregateRoot, TId>.InsertAsync(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
         {
-            await base.InsertAsync(e => e.Id, aggregateRoot, cancellationToken);
+            await base.InsertAsync(aggregateRoot, cancellationToken);
             await DispatchAggregateEventsAsync(aggregateRoot, cancellationToken);
         }
 
-        public async Task InsertAsync(IEnumerable<TAggregateRoot> aggregates, CancellationToken cancellationToken)
+        async Task IAggregateRepository<TAggregateRoot, TId>.InsertAsync(IEnumerable<TAggregateRoot> aggregates, CancellationToken cancellationToken)
         {
-            await base.InsertAsync<TId>(aggregates, cancellationToken);
+            await base.InsertAsync(aggregates, cancellationToken);
 
             await Task.WhenAll(aggregates
                 .Select(aggregate => DispatchAggregateEventsAsync(aggregate, cancellationToken)));
         }
 
-        public async Task UpdateAsync(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
+        async Task IAggregateRepository<TAggregateRoot, TId>.UpdateAsync(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
         {
-            await base.UpdateAsync(e => e.Id, aggregateRoot, cancellationToken);
+            await base.UpdateAsync(aggregateRoot, cancellationToken);
             await DispatchAggregateEventsAsync(aggregateRoot, cancellationToken);
         }
 
-        public async Task DeleteAsync(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
+        async Task IAggregateRepository<TAggregateRoot, TId>.DeleteAsync(TAggregateRoot aggregateRoot, CancellationToken cancellationToken)
         {
-            await base.DeleteAsync(e => e.Id, aggregateRoot.Id, cancellationToken);
+            await base.DeleteAsync(aggregateRoot.Id, cancellationToken);
             await DispatchAggregateEventsAsync(aggregateRoot, cancellationToken);
         }
 
@@ -71,5 +68,8 @@ namespace FaccToolkit.Persistence.EntityFramework.RichDomain
 
             aggregateRoot.ClearEvents();
         }
+
+        protected override TId GetId(TAggregateRoot model)
+            => model.Id;
     }
 }

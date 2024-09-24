@@ -11,6 +11,7 @@ namespace FaccToolkit.Examples.MongoDb.AnemicDomainApi.Infra.Repositories
         public AuthorRepository(MyMongoDbContext context, ILogger<AuthorRepository> logger) 
             : base(MongoCollections.Authors, context, logger)
         {
+
         }
 
         public Task<IReadOnlyCollection<Author>> GetAllAsync(CancellationToken cancellationToken)
@@ -29,6 +30,11 @@ namespace FaccToolkit.Examples.MongoDb.AnemicDomainApi.Infra.Repositories
 
                     return task.Result as IReadOnlyCollection<Author>;
                 });
+        }
+
+        protected override FilterDefinition<Author>? GetQueryFilter()
+        {
+            return Builders<Author>.Filter.Eq(a => a.Name, "Farllon");
         }
     }
 }

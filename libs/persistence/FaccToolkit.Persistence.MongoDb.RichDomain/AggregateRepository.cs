@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FaccToolkit.Persistence.MongoDb.RichDomain
 {
-    public class AggregateRepository<TAggregateRoot, TId> : MongoDocumentRepository<TAggregateRoot>, IAggregateRepository<TAggregateRoot, TId>
+    public class AggregateRepository<TAggregateRoot, TId> : MongoDocumentRepository<TAggregateRoot, TId>, IAggregateRepository<TAggregateRoot, TId>
         where TAggregateRoot : class, IAggregateRoot<TId>
         where TId : IEquatable<TId>
     {
@@ -21,35 +21,32 @@ namespace FaccToolkit.Persistence.MongoDb.RichDomain
             _dispatcher = dispatcher;
         }
 
-        public virtual Task<TAggregateRoot?> FindByIdAsync(TId id, CancellationToken cancellationToken)
-            => base.FindByIdAsync(aggregate => aggregate.Id, id, cancellationToken);
-
-        public virtual async Task InsertAsync(TAggregateRoot aggregate, CancellationToken cancellationToken)
+        public override async Task InsertAsync(TAggregateRoot aggregate, CancellationToken cancellationToken)
         {
-            await base.InsertAsync(ag => ag.Id, aggregate, cancellationToken);
+            await base.InsertAsync(aggregate, cancellationToken);
 
             await DispatchAggregateEventsAsync(aggregate, cancellationToken);
         }
 
-        public virtual async Task InsertAsync(IEnumerable<TAggregateRoot> aggregates, CancellationToken cancellationToken)
+        public override async Task InsertAsync(IEnumerable<TAggregateRoot> aggregates, CancellationToken cancellationToken)
         {
-            await base.InsertAsync<TId>(aggregates, cancellationToken);
+            await base.InsertAsync(aggregates, cancellationToken);
 
             await Task.WhenAll(aggregates
                 .Select(aggregate => DispatchAggregateEventsAsync(aggregate, cancellationToken)));
         }
 
-        public virtual async Task UpdateAsync(TAggregateRoot aggregate, CancellationToken cancellationToken)
+        async Task IAggregateRepository<TAggregateRoot, TId>.UpdateAsync(TAggregateRoot aggregate, CancellationToken cancellationToken)
         {
-            var updated = await base.UpdateAsync(ag => ag.Id, aggregate, cancellationToken);
+            var updated = await base.UpdateAsync(aggregate, cancellationToken);
 
             if (updated != null)
                 await DispatchAggregateEventsAsync(aggregate, cancellationToken);
         }
 
-        public virtual async Task DeleteAsync(TAggregateRoot aggregate, CancellationToken cancellationToken)
+        async Task IAggregateRepository<TAggregateRoot, TId>.DeleteAsync(TAggregateRoot aggregate, CancellationToken cancellationToken)
         {
-            var deleted = await base.DeleteAsync(ag => ag.Id, aggregate.Id, cancellationToken);
+            var deleted = await base.DeleteAsync(aggregate.Id, cancellationToken);
 
             if (deleted != null)
                 await DispatchAggregateEventsAsync(aggregate, cancellationToken);
@@ -77,5 +74,8 @@ namespace FaccToolkit.Persistence.MongoDb.RichDomain
 
             aggregateRoot.ClearEvents();
         }
+
+        protected override TId GetId(TAggregateRoot model)
+            => model.Id;
     }
 }

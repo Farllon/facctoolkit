@@ -10,16 +10,18 @@ namespace FaccToolkit.Caching.Redis
     public class CacheFacade : ICacheFacade
     {
         protected readonly string _prefix;
+        protected readonly string? _scopedPrefix;
         protected readonly IDatabase _redisDb;
         protected readonly int _expirationInMilliseconds;
         protected readonly bool _suppressCacheSetErrors;
         protected readonly ILogger _logger;
         protected readonly IModelSerializer _modelSerializer;
 
-        public CacheFacade(IModelSerializer modelSerializer, IDatabase redisDb, ILogger logger, RedisConfiguration cacheConfig)
+        public CacheFacade(IModelSerializer modelSerializer, IDatabase redisDb, ILogger logger, RedisConfiguration cacheConfig, string? scopedPreffix = null)
         {
             _logger = logger;
             _prefix = cacheConfig.Prefix;
+            _scopedPrefix = scopedPreffix;
             _redisDb = redisDb;
             _modelSerializer = modelSerializer;
             _expirationInMilliseconds = cacheConfig.ExpirationInMilliseconds;
@@ -84,6 +86,8 @@ namespace FaccToolkit.Caching.Redis
 
         public virtual string GenerateKey<TModel>(string suffix)
             where TModel : class
-            => string.Join(':', _prefix, typeof(TModel), suffix);
+            => _scopedPrefix is null
+            ? string.Join(':', _prefix, typeof(TModel), suffix)
+            : string.Join(':', _prefix, _scopedPrefix, typeof(TModel), suffix);
     }
 }

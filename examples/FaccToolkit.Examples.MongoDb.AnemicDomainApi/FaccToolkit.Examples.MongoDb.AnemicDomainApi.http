@@ -1,5 +1,5 @@
 ﻿@host = http://localhost:5242
-@authorId = 0b23eb4b-5286-4f92-ae2e-374b65a50973
+@authorId = 6695d4fa-e152-48f2-bdb0-9a3959e4cbd5
 @postId = 96bd86d2-0e58-44a9-a972-76ffe24eb868
 
 GET {{host}}/authors/
@@ -23,7 +23,7 @@ PUT {{host}}/authors/{{authorId}}
 Content-Type: application/json
 
 {
-  "name": "Farllon 2"
+  "name": "Farllon"
 }
 
 ###

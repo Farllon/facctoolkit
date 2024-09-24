@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace FaccToolkit.Persistence.EntityFramework.AnemicDomain
 {
-    public class EntityRepository<TEntity, TId, TDbContext> : BaseRepository<TEntity, TDbContext>, IEntityRepository<TEntity, TId>
+    public class EntityRepository<TEntity, TId, TDbContext> : BaseRepository<TEntity, TId, TDbContext>, IEntityRepository<TEntity, TId>
         where TEntity : class, IEntity<TId>
         where TId : IEquatable<TId>
         where TDbContext : DbContext
@@ -19,19 +19,13 @@ namespace FaccToolkit.Persistence.EntityFramework.AnemicDomain
             _entities = _context.Set<TEntity>();
         }
 
-        public Task<TEntity?> FindByIdAsync(TId id, CancellationToken cancellationToken)
-            => base.FindByIdAsync(e => e.Id, id, cancellationToken);
+        Task IEntityRepository<TEntity, TId>.UpdateAsync(TEntity entity, CancellationToken cancellationToken)
+            => base.UpdateAsync(entity, cancellationToken);
 
-        public Task InsertAsync(TEntity entity, CancellationToken cancellationToken)
-            => base.InsertAsync(e => e.Id, entity, cancellationToken);
+        Task IEntityRepository<TEntity, TId>.DeleteAsync(TId id, CancellationToken cancellationToken)
+            => base.DeleteAsync(id, cancellationToken);
 
-        public Task InsertAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken)
-            => base.InsertAsync<TId>(entities, cancellationToken);
-
-        public Task UpdateAsync(TEntity entity, CancellationToken cancellationToken)
-            => base.UpdateAsync(e => e.Id, entity, cancellationToken);
-
-        public Task DeleteAsync(TId id, CancellationToken cancellationToken)
-            => base.DeleteAsync(e => e.Id, id, cancellationToken);
+        protected override TId GetId(TEntity model)
+            => model.Id;
     }
 }

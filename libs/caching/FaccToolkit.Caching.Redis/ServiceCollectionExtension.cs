@@ -11,7 +11,7 @@ namespace FaccToolkit.Caching.Redis
     [ExcludeFromCodeCoverage]
     public static class ServiceCollectionExtension
     {
-        public static IServiceCollection AddRedisCaching(this IServiceCollection services, Action<RedisConfiguration> configureCache)
+        public static IServiceCollection AddRedisCaching(this IServiceCollection services, Action<RedisConfiguration> configureCache, Func<IServiceProvider, string>? scopedPerfixFactory = null)
         {
             var cacheConfig = new RedisConfiguration();
 
@@ -28,28 +28,47 @@ namespace FaccToolkit.Caching.Redis
                     .GetRequiredService<IConnectionMultiplexer>()
                     .GetDatabase(cacheConfig.Database));
 
-            services.AddSingleton<ICacheFacade, CacheFacade>(provider => 
-                new CacheFacade(
-                    provider.GetRequiredService<IModelSerializer>(),
-                    provider.GetRequiredService<IDatabase>(),
-                    provider.GetRequiredService<ILogger<CacheFacade>>(),
-                    cacheConfig));
+            if (scopedPerfixFactory != null)
+                services.AddScoped<ICacheFacade, CacheFacade>(provider =>
+                    new CacheFacade(
+                        provider.GetRequiredService<IModelSerializer>(),
+                        provider.GetRequiredService<IDatabase>(),
+                        provider.GetRequiredService<ILogger<CacheFacade>>(),
+                        cacheConfig,
+                        scopedPerfixFactory(provider)));
+            else
+                services.AddSingleton<ICacheFacade, CacheFacade>(provider => 
+                    new CacheFacade(
+                        provider.GetRequiredService<IModelSerializer>(),
+                        provider.GetRequiredService<IDatabase>(),
+                        provider.GetRequiredService<ILogger<CacheFacade>>(),
+                        cacheConfig));
 
             return services;
         }
 
-        public static IServiceCollection AddRedisCaching(this IServiceCollection services, Action<RedisConfiguration> configureCache, Func<IServiceProvider, IDatabase> databaseFactory)
+        public static IServiceCollection AddRedisCaching(this IServiceCollection services, Action<RedisConfiguration> configureCache, Func<IServiceProvider, IDatabase> databaseFactory, Func<IServiceProvider, string>? scopedPerfixFactory = null)
         {
             var cacheConfig = new RedisConfiguration();
 
             configureCache(cacheConfig);
 
-            services.AddSingleton<ICacheFacade, CacheFacade>(provider =>
-                new CacheFacade(
-                    provider.GetRequiredService<IModelSerializer>(),
-                    databaseFactory(provider),
-                    provider.GetRequiredService<ILogger<CacheFacade>>(),
-                    cacheConfig));
+            if (scopedPerfixFactory != null)
+                services.AddScoped<ICacheFacade, CacheFacade>(provider =>
+                    new CacheFacade(
+                        provider.GetRequiredService<IModelSerializer>(),
+                        databaseFactory(provider),
+                        provider.GetRequiredService<ILogger<CacheFacade>>(),
+                        cacheConfig,
+                        scopedPerfixFactory(provider)));
+            else
+                services.AddSingleton<ICacheFacade, CacheFacade>(provider =>
+                    new CacheFacade(
+                        provider.GetRequiredService<IModelSerializer>(),
+                        databaseFactory(provider),
+                        provider.GetRequiredService<ILogger<CacheFacade>>(),
+                        cacheConfig,
+                        null));
 
             return services;
         }
