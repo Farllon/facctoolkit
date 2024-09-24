@@ -4,13 +4,14 @@ using Microsoft.Extensions.Logging;
 
 namespace FaccToolkit.Persistence.EntityFramework.Abstractions
 {
-    public class BaseRepository<TModel, TDbContext> : ModelRepository<TModel>, IAsyncDisposable
+    public abstract class BaseRepository<TModel, TId, TDbContext> : ModelRepository<TModel, TId>, IAsyncDisposable
         where TModel : class
         where TDbContext : DbContext
+        where TId : IEquatable<TId>
     {
         protected readonly TDbContext _context;
 
-        public BaseRepository(TDbContext context, ILogger<BaseRepository<TModel, TDbContext>> logger)
+        public BaseRepository(TDbContext context, ILogger<BaseRepository<TModel, TId, TDbContext>> logger)
             : base(logger)
         {
             _context = context;
@@ -36,11 +37,11 @@ namespace FaccToolkit.Persistence.EntityFramework.Abstractions
             GC.SuppressFinalize(this);
         }
 
-        protected override Task<TModel?> InternalFindByIdAsync<TId>(Func<TModel, TId> idSelector, TId id, CancellationToken cancellationToken)
+        protected override Task<TModel?> InternalFindByIdAsync(TId id, CancellationToken cancellationToken)
             => _context
                 .Set<TModel>()
-                .AsNoTracking()
-                .FirstOrDefaultAsync(GetFilter(model => idSelector(model)!.Equals(id)), cancellationToken);
+                .FindAsync(new object?[] { id }, cancellationToken: cancellationToken)
+                .AsTask();
 
         protected override Task InternalInsertAsync(TModel model, CancellationToken cancellationToken)
             => _context
@@ -53,15 +54,13 @@ namespace FaccToolkit.Persistence.EntityFramework.Abstractions
                 .Set<TModel>()
                 .AddRangeAsync(models, cancellationToken);
 
-        protected override async Task<TModel?> InternalUpdateAsync<TId>(Func<TModel, TId> idSelector, TModel model, CancellationToken cancellationToken)
+        protected override async Task<TModel?> InternalUpdateAsync(TModel model, CancellationToken cancellationToken)
         {
-            var id = idSelector(model);
+            var id = GetId(model);
 
             var found = await _context
                 .Set<TModel>()
-                .FirstOrDefaultAsync(
-                    GetFilter(model => idSelector(model)!.Equals(id)), 
-                    cancellationToken);
+                .FindAsync(new object?[] { id }, cancellationToken: cancellationToken);
 
             if (found is null)
                 return null;
@@ -73,13 +72,11 @@ namespace FaccToolkit.Persistence.EntityFramework.Abstractions
             return found;
         }
 
-        protected override async Task<TModel?> InternalDeleteAsync<TId>(Func<TModel, TId> idSelector, TId id, CancellationToken cancellationToken)
+        protected override async Task<TModel?> InternalDeleteAsync(TId id, CancellationToken cancellationToken)
         {
             var found = await _context
                 .Set<TModel>()
-                .FirstOrDefaultAsync(
-                    GetFilter(model => idSelector(model)!.Equals(id)), 
-                    cancellationToken);
+                .FindAsync(new object?[] { id }, cancellationToken: cancellationToken);
 
             if (found is null)
                 return null;

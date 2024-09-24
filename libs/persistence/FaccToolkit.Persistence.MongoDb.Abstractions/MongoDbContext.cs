@@ -49,14 +49,6 @@ namespace FaccToolkit.Persistence.MongoDb.Abstractions
             where TId : IEquatable<TId>
             => _database.GetCollection<TEntity>(collectionName);
 
-        public virtual MongoDocumentRepository<TModel> GetModelRepository<TModel>(string collectionName, ILogger? logger = null)
-            where TModel : class
-        {
-            var collection = _database.GetCollection<TModel>(collectionName);
-
-            return new MongoDocumentRepository<TModel>(logger ?? _logger, this, collection);
-        }
-
         public virtual void StartTransaction()
         {
             using var _ = _logger.BeginScope("Start new mongodb transaction flow");

@@ -99,9 +99,9 @@ namespace FaccToolkit.Persistence.Extensions.Caching.RichDomain
 
             var key = _cacheFacade.GenerateKey<TAggregateRoot>(aggregate.Id.ToString());
 
-            _logger.LogInformation("Setting {Key} on cache", key);
-            
-            await _cacheFacade.SetAsync(key, aggregate, cancellationToken);
+            _logger.LogInformation("Expiring {Key} from cache", key);
+
+            await _cacheFacade.ExpiryAsync(key, cancellationToken);
         }
 
         public virtual async Task DeleteAsync(TAggregateRoot aggregate, CancellationToken cancellationToken)

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FaccToolkit.Persistence.MongoDb.AnemicDomain
 {
-    public class EntityRepository<TEntity, TId> : MongoDocumentRepository<TEntity>, IEntityRepository<TEntity, TId>
+    public class EntityRepository<TEntity, TId> : MongoDocumentRepository<TEntity, TId>, IEntityRepository<TEntity, TId>
         where TEntity : class, IEntity<TId>
         where TId : IEquatable<TId>
     {
@@ -21,19 +21,13 @@ namespace FaccToolkit.Persistence.MongoDb.AnemicDomain
 
         }
 
-        public virtual Task<TEntity?> FindByIdAsync(TId id, CancellationToken cancellationToken)
-            => base.FindByIdAsync(entity => entity.Id, id, cancellationToken);
+        Task IEntityRepository<TEntity, TId>.UpdateAsync(TEntity entity, CancellationToken cancellationToken)
+            => base.UpdateAsync(entity, cancellationToken);
 
-        public virtual Task InsertAsync(TEntity entity, CancellationToken cancellationToken)
-            => base.InsertAsync(entity => entity.Id, entity, cancellationToken);
+        Task IEntityRepository<TEntity, TId>.DeleteAsync(TId id, CancellationToken cancellationToken)
+            => base.DeleteAsync(id, cancellationToken);
 
-        public virtual Task InsertAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken)
-            => base.InsertAsync<TId>(entities, cancellationToken);
-
-        public virtual Task UpdateAsync(TEntity entity, CancellationToken cancellationToken)
-            => base.UpdateAsync(entity => entity.Id, entity, cancellationToken);
-
-        public virtual Task DeleteAsync(TId id, CancellationToken cancellationToken)
-            => base.DeleteAsync(entity => entity.Id, id, cancellationToken);
+        protected override TId GetId(TEntity model)
+            => model.Id;
     }
 }
